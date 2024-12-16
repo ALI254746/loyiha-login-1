@@ -1,0 +1,194 @@
+/* core stylea */
+body{
+    font-family:sans-serif ;
+}
+.container{
+    width:1140px;
+    margin:0 auto;/*hardoim o'rtada qilib turadi ekrandagi narsalarni*/
+    padding:20px;
+}
+.to-uppercase {
+    text-transform:uppercase ;
+}
+.main-header-brand{
+    display: inline-block;
+
+}
+.section-subtitle{
+    letter-spacing: 2px;
+    font-weight: 500;
+    margin-bottom:10px;
+    color:#797979;
+    text-transform: uppercase;
+
+}
+.section-title{
+    margin-top:5px;
+    font-size: 42px;
+    font-weight: 700;
+    text-transform:capitalize;
+    color:#05364d;
+}
+.blur-line{
+    display: inline-block;
+    margin-left: 5px;
+    width:80px;
+    height: 4px;
+    background-color:rgba(237,35,159,0.6);
+    filter:blur(4px);
+    border-radius: 4px;
+}
+/* main header section  styles*/
+.main-header-brand img {
+    width:65px;
+    border-radius: 50%;
+}
+.main-navigation {
+    display:inline-block;
+    vertical-align: middle;
+}
+.main-navigation-item{
+    display: inline-block;
+    padding:10px;
+}
+.main-navigation-items a {
+    color:#05364d;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight:500 ;
+}
+.main-navigation-items a:hover{
+    color:#03dbfcf7
+}
+.main-navigation-items.active a{
+    color:yellowgreen;
+}
+/*main-section  */
+.main-section{
+    padding:100px 30px;
+}
+.main-section>div{
+    width:50%;
+    float:left;
+}
+.main-section-info{
+    display: inline-block;
+     float:left;
+}
+.main-section-image{
+    text-align: right;
+    
+    
+}
+.main-section-image img{
+    width:300px;
+    height: 400px;
+}
+.main-section-welcom{
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom:20px;
+    letter-spacing:2px;
+    color:aqua;
+}
+.main-section-introduction{
+    margin-top:20px;
+    font-size:60px;
+    font-weight:500;
+    margin-bottom:20px;
+    color:#05364E;
+}
+.main-section-position{
+    color:#05364E;
+    font-size:24;
+    font-weight:300;
+    margin-bottom:20px;
+
+}
+.main-section-action{
+    margin-top:30px;
+    border:none;
+    background-color: #1c44e4;
+    color:#ffffff;
+    font-weight: 500;
+    font-size:14px;
+    padding:20px 40px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.main-section-action:hover{
+    background-color: aqua;
+    border-radius: 10px;
+}
+/* statistics section */
+.statistics{
+    padding-top:50px;
+    text-align: center;
+
+}
+.statistics-pramary{
+    display: inline-block;
+    padding:50px;
+    
+    
+}
+.statistics-item{
+    display:inline-block;
+    text-align: center;
+    vertical-align: top;    
+    background-color:#ffffff;
+    padding:5px;
+    margin-left: 20px;
+    box-shadow: 10px 2px 15px rgb(6, 220, 248);
+   
+
+
+
+}
+
+.statistics-number{
+    font-size:27px;
+    margin-bottom:5px;
+    color:aqua;
+}
+.statistics-title{
+    font-size:16px;
+    color: #797979;
+    font-weight: 300;
+    font-family:monospace;
+}
+/* about -me section */
+.about-me{
+    padding:100px 0;
+}
+.about-me >div{
+    width:50%;
+    float:left;
+}
+.about-me-image img{
+    width:60%;
+    height: 500px;
+}
+
+.about-me-description{
+    font-size: 14px;
+    font-weight: 300;
+    color: #797979;
+    line-height:27px ;
+}
+
+    
+
+.service-card-icon{
+    width: 10%;
+    height: 20%;
+}
+.services-solution{
+    padding-top:100px;
+}
+/* services section style */
+.services{
+    padding-top: 100px;
+
+}
