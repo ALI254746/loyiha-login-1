@@ -15,36 +15,38 @@ function Toggle({ on, onChange }: { on: boolean; onChange: () => void }) {
   );
 }
 
+type MenuItem = { icon: string; label: string; right?: React.ReactNode; hasArrow?: boolean; onPress?: () => void };
+
 export default function ProfilePage() {
   const router = useRouter();
   const [notifications, setNotifications] = useState(true);
   const [darkMode] = useState(true);
   const [language, setLanguage] = useState("O'zbek");
 
-  const sections = [
+  const sections: { title: string; items: MenuItem[] }[] = [
     {
       title: 'Hisob',
       items: [
-        { icon: '👤', label: "Profil ma'lumotlari", right: null, action: () => {} },
-        { icon: '🔒', label: 'Xavfsizlik va parol', right: null, action: () => {} },
-        { icon: '📧', label: 'Email bildirishnomalar', right: <Toggle on={notifications} onChange={() => setNotifications(!notifications)} />, action: undefined },
+        { icon: '👤', label: "Profil ma'lumotlari", hasArrow: true },
+        { icon: '🔒', label: 'Xavfsizlik va parol', hasArrow: true },
+        { icon: '📧', label: 'Email bildirishnomalar', right: <Toggle on={notifications} onChange={() => setNotifications(!notifications)} /> },
       ]
     },
     {
       title: 'Ilova',
       items: [
-        { icon: '🌙', label: 'Dark mode', right: <Toggle on={darkMode} onChange={() => {}} />, action: undefined },
-        { icon: '🌐', label: 'Til', right: <span style={{ color: '#60a5fa', fontSize: 13, fontWeight: 600 }}>{language}</span>, action: () => setLanguage(language === "O'zbek" ? 'English' : "O'zbek") },
-        { icon: '📱', label: 'Ilova versiyasi', right: <span style={{ color: '#334155', fontSize: 13 }}>v1.0.0</span>, action: undefined },
+        { icon: '🌙', label: 'Dark mode', right: <Toggle on={darkMode} onChange={() => {}} /> },
+        { icon: '🌐', label: 'Til', right: <span style={{ color: '#60a5fa', fontSize: 13, fontWeight: 600 }}>{language}</span>, onPress: () => setLanguage(language === "O'zbek" ? 'English' : "O'zbek") },
+        { icon: '📱', label: 'Ilova versiyasi', right: <span style={{ color: '#334155', fontSize: 13 }}>v1.0.0</span> },
       ]
     },
     {
       title: "Ma'lumot",
       items: [
-        { icon: '📋', label: 'Foydalanish shartlari', right: null, action: () => {} },
-        { icon: '🛡️', label: 'Maxfiylik siyosati', right: null, action: () => {} },
-        { icon: '⭐', label: 'Ilovani baholash', right: null, action: () => {} },
-        { icon: '💬', label: "Qo'llab-quvvatlash", right: null, action: () => {} },
+        { icon: '📋', label: 'Foydalanish shartlari', hasArrow: true },
+        { icon: '🛡️', label: 'Maxfiylik siyosati', hasArrow: true },
+        { icon: '⭐', label: 'Ilovani baholash', hasArrow: true },
+        { icon: '💬', label: "Qo'llab-quvvatlash", hasArrow: true },
       ]
     },
   ];
@@ -90,12 +92,13 @@ export default function ProfilePage() {
               {section.items.map((item, ii) => (
                 <button
                   key={ii}
-                  onClick={item.action}
-                  style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 12, padding: '13px 16px', background: 'none', border: 'none', cursor: item.action ? 'pointer' : 'default', textAlign: 'left', fontFamily: 'Inter, sans-serif', borderBottom: ii < section.items.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}
+                  onClick={item.onPress}
+                  style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 12, padding: '13px 16px', background: 'none', border: 'none', cursor: item.onPress ? 'pointer' : 'default', textAlign: 'left', fontFamily: 'Inter, sans-serif', borderBottom: ii < section.items.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}
                 >
                   <span style={{ fontSize: 20 }}>{item.icon}</span>
                   <span style={{ flex: 1, fontSize: 14, fontWeight: 500, color: '#e2e8f0' }}>{item.label}</span>
-                  {item.right ?? (item.action ? <span style={{ color: '#334155', fontSize: 18 }}>›</span> : null)}
+                  {item.right}
+                  {item.hasArrow && <span style={{ color: '#334155', fontSize: 18 }}>›</span>}
                 </button>
               ))}
             </div>
