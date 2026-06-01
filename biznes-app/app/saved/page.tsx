@@ -17,75 +17,82 @@ export default function SavedPage() {
 
   return (
     <DarkLayout title="Saqlangan Loyihalar" backRoute="/dashboard">
-      <div className="px-4 py-4 space-y-4">
+      <div style={{ padding: '16px 20px', display: 'flex', flexDirection: 'column', gap: 16 }}>
 
-        {/* Summary */}
-        <div className="grid grid-cols-3 gap-2">
+        {/* Summary cards */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }}>
           {[
-            { label: 'Jami tahlil', val: '4', icon: '📊' },
-            { label: "O'rtacha skor", val: '75', icon: '🎯' },
-            { label: 'Eng yaxshi', val: '85', icon: '🏆' },
+            { label: 'Jami tahlil', val: '4', icon: '📊', color: '#60a5fa' },
+            { label: "O'rtacha skor", val: '75', icon: '🎯', color: '#a78bfa' },
+            { label: 'Eng yaxshi', val: '85', icon: '🏆', color: '#34d399' },
           ].map((s, i) => (
-            <div key={i} className="rounded-xl p-3 text-center" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}>
-              <div className="text-xl mb-1">{s.icon}</div>
-              <div className="text-white font-black text-lg">{s.val}</div>
-              <div style={{ color: '#64748b', fontSize: 10 }}>{s.label}</div>
+            <div key={i} style={{ background: `${s.color}0e`, border: `1px solid ${s.color}28`, borderRadius: 18, padding: '12px 8px', textAlign: 'center' }}>
+              <div style={{ fontSize: 20, marginBottom: 6 }}>{s.icon}</div>
+              <div style={{ color: s.color, fontWeight: 900, fontSize: 18 }}>{s.val}</div>
+              <div style={{ color: '#475569', fontSize: 10, marginTop: 3 }}>{s.label}</div>
             </div>
           ))}
         </div>
 
-        {/* List */}
-        <div className="space-y-3">
-          {saved.map((item, i) => (
-            <div key={item.id} className={`rounded-2xl overflow-hidden transition-all ${deleting === item.id ? 'opacity-50 scale-95' : ''}`}
-                 style={{ border: `1px solid ${item.color}30`, background: 'rgba(255,255,255,0.04)' }}>
-              <div className="p-4">
-                <div className="flex items-start gap-3">
-                  <div className="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl flex-shrink-0" style={{ background: `${item.color}15` }}>
+        {/* Saved list */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          {saved.map((item) => (
+            <div
+              key={item.id}
+              style={{
+                borderRadius: 20, border: `1px solid ${item.color}28`,
+                background: 'rgba(255,255,255,0.04)',
+                opacity: deleting === item.id ? 0.4 : 1,
+                transform: deleting === item.id ? 'scale(0.97)' : 'scale(1)',
+                transition: 'all 0.2s ease',
+                overflow: 'hidden',
+              }}
+            >
+              <div style={{ padding: 16 }}>
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
+                  <div style={{ width: 48, height: 48, borderRadius: 16, background: `${item.color}14`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, flexShrink: 0 }}>
                     {item.icon}
                   </div>
-                  <div className="flex-1">
-                    <div className="flex items-start justify-between">
+                  <div style={{ flex: 1 }}>
+                    <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 4 }}>
                       <div>
-                        <h3 className="text-white font-bold text-sm">{item.name}</h3>
-                        <p style={{ color: '#64748b', fontSize: 11 }}>📍 {item.location}</p>
+                        <h3 style={{ color: 'white', fontWeight: 800, fontSize: 14 }}>{item.name}</h3>
+                        <p style={{ color: '#475569', fontSize: 11, marginTop: 2 }}>📍 {item.location}</p>
                       </div>
-                      <button onClick={() => { setDeleting(item.id); setTimeout(() => setDeleting(null), 500); }}
-                              className="text-slate-600 hover:text-red-400 transition-colors ml-2">
-                        🗑️
-                      </button>
+                      <button
+                        onClick={() => { setDeleting(item.id); setTimeout(() => setDeleting(null), 500); }}
+                        style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 16, color: '#475569', marginLeft: 8, padding: 4 }}
+                      >🗑️</button>
                     </div>
-                    <div className="flex items-center gap-3 mt-2">
-                      <span style={{ color: '#94a3b8', fontSize: 12 }}>💰 {item.budget}</span>
-                      <span style={{ color: '#94a3b8', fontSize: 12 }}>📅 {item.date}</span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 8 }}>
+                      <span style={{ color: '#64748b', fontSize: 12 }}>💰 {item.budget}</span>
+                      <span style={{ color: '#64748b', fontSize: 12 }}>📅 {item.date}</span>
                     </div>
-                    <div className="flex items-center justify-between mt-3">
-                      <div className="flex items-center gap-2">
-                        <div className="flex-1 h-2 rounded-full w-24" style={{ background: '#1e293b' }}>
-                          <div className="h-full rounded-full transition-all" style={{ width: `${item.score}%`, background: item.score > 75 ? '#10b981' : item.score > 60 ? '#f59e0b' : '#ef4444' }} />
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 10 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <div style={{ width: 80, height: 6, borderRadius: 3, background: '#1e293b' }}>
+                          <div style={{ height: '100%', borderRadius: 3, width: `${item.score}%`, background: item.score > 75 ? '#10b981' : item.score > 60 ? '#f59e0b' : '#ef4444' }} />
                         </div>
-                        <span className="text-xs font-bold" style={{ color: item.color }}>Skor: {item.score}</span>
+                        <span style={{ color: item.color, fontWeight: 800, fontSize: 12 }}>{item.score}</span>
                       </div>
-                      <span className="text-xs px-2 py-0.5 rounded-full font-semibold" style={{ background: `${item.color}20`, color: item.color }}>{item.tag}</span>
+                      <span style={{ fontSize: 11, fontWeight: 700, padding: '3px 10px', borderRadius: 20, background: `${item.color}18`, color: item.color }}>{item.tag}</span>
                     </div>
                   </div>
                 </div>
-                <button onClick={() => router.push('/results')}
-                        className="w-full mt-3 py-2.5 rounded-xl text-sm font-semibold text-white transition-all"
-                        style={{ background: `${item.color}20`, border: `1px solid ${item.color}40` }}>
-                  Ko&apos;rish →
-                </button>
+                <button
+                  onClick={() => router.push('/results')}
+                  style={{ width: '100%', marginTop: 12, padding: '10px', borderRadius: 14, fontSize: 13, fontWeight: 700, color: 'white', cursor: 'pointer', background: `${item.color}18`, border: `1px solid ${item.color}35`, fontFamily: 'Inter, sans-serif' }}
+                >Ko&apos;rish →</button>
               </div>
             </div>
           ))}
         </div>
 
-        {/* New analysis button */}
-        <button onClick={() => router.push('/dashboard')}
-                className="w-full h-14 rounded-2xl text-white font-bold text-base"
-                style={{ background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)', boxShadow: '0 8px 32px rgba(59,130,246,0.25)' }}>
-          ＋ Yangi Tahlil
-        </button>
+        {/* New analysis */}
+        <button
+          onClick={() => router.push('/dashboard')}
+          style={{ width: '100%', height: 56, borderRadius: 20, color: 'white', fontWeight: 800, fontSize: 15, border: 'none', cursor: 'pointer', background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)', boxShadow: '0 8px 32px rgba(59,130,246,0.3)', fontFamily: 'Inter, sans-serif' }}
+        >＋ Yangi Tahlil</button>
       </div>
     </DarkLayout>
   );

@@ -26,6 +26,13 @@ const demandData = [
   { label: 'Kiyim', val: 78, color: '#ec4899' },
 ];
 
+const chartCard: React.CSSProperties = {
+  borderRadius: 20,
+  padding: 16,
+  background: 'rgba(255,255,255,0.04)',
+  border: '1px solid rgba(255,255,255,0.07)',
+};
+
 export default function AnalyticsPage() {
   const totalRevenue = monthlyData.reduce((s, d) => s + d.revenue, 0);
   const totalExpenses = monthlyData.reduce((s, d) => s + d.expenses, 0);
@@ -33,61 +40,71 @@ export default function AnalyticsPage() {
 
   return (
     <DarkLayout title="Analitik Dashboard" backRoute="/dashboard">
-      <div className="px-4 py-4 space-y-6">
+      <div style={{ padding: '16px 20px', display: 'flex', flexDirection: 'column', gap: 16 }}>
 
         {/* Summary cards */}
-        <div className="grid grid-cols-3 gap-2">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }}>
           {[
-            { icon: '💰', label: "Yillik daromad", val: `$${(totalRevenue/1000).toFixed(0)}K`, color: '#10b981' },
-            { icon: '💸', label: 'Xarajatlar', val: `$${(totalExpenses/1000).toFixed(0)}K`, color: '#ef4444' },
-            { icon: '✨', label: 'Sof foyda', val: `$${(netProfit/1000).toFixed(0)}K`, color: '#60a5fa' },
+            { icon: '💰', label: "Yillik daromad", val: `$${(totalRevenue / 1000).toFixed(0)}K`, color: '#10b981' },
+            { icon: '💸', label: 'Xarajatlar', val: `$${(totalExpenses / 1000).toFixed(0)}K`, color: '#ef4444' },
+            { icon: '✨', label: 'Sof foyda', val: `$${(netProfit / 1000).toFixed(0)}K`, color: '#60a5fa' },
           ].map((s, i) => (
-            <div key={i} className="rounded-2xl p-3 text-center" style={{ background: `${s.color}10`, border: `1px solid ${s.color}30` }}>
-              <div className="text-xl mb-1">{s.icon}</div>
-              <div className="font-black text-base" style={{ color: s.color }}>{s.val}</div>
-              <div style={{ color: '#64748b', fontSize: 10 }}>{s.label}</div>
+            <div key={i} style={{ background: `${s.color}0e`, border: `1px solid ${s.color}28`, borderRadius: 18, padding: '12px 8px', textAlign: 'center' }}>
+              <div style={{ fontSize: 20, marginBottom: 6 }}>{s.icon}</div>
+              <div style={{ color: s.color, fontWeight: 900, fontSize: 16 }}>{s.val}</div>
+              <div style={{ color: '#475569', fontSize: 10, marginTop: 3 }}>{s.label}</div>
             </div>
           ))}
         </div>
 
-        {/* Revenue chart */}
-        <div className="rounded-2xl p-4" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}>
-          <h3 className="text-white font-bold mb-4">📈 12 Oylik Daromad & Xarajat</h3>
+        {/* Revenue vs Expenses */}
+        <div style={chartCard}>
+          <h3 style={{ color: 'white', fontWeight: 800, fontSize: 14, marginBottom: 14 }}>📈 12 Oylik Daromad & Xarajat</h3>
           <div style={{ height: 220 }}>
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={monthlyData}>
                 <defs>
                   <linearGradient id="revG" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#10b981" stopOpacity={0.3}/>
-                    <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#10b981" stopOpacity={0.3} />
+                    <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
                 <XAxis dataKey="month" tick={{ fill: '#475569', fontSize: 10 }} />
-                <YAxis tick={{ fill: '#475569', fontSize: 10 }} tickFormatter={v => `$${v/1000}k`} />
-                <Tooltip contentStyle={{ background: '#0f172a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12 }}
-                         formatter={(v) => [`$${Number(v).toLocaleString()}`, '']} />
-                <Line dataKey="revenue" stroke="#10b981" strokeWidth={2} dot={false} name="Daromad"/>
-                <Line dataKey="expenses" stroke="#ef4444" strokeWidth={2} dot={false} strokeDasharray="4 4" name="Xarajat"/>
+                <YAxis tick={{ fill: '#475569', fontSize: 10 }} tickFormatter={v => `$${v / 1000}k`} />
+                <Tooltip
+                  contentStyle={{ background: '#0f172a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12 }}
+                  formatter={(v) => [`$${Number(v).toLocaleString()}`, '']}
+                />
+                <Line dataKey="revenue" stroke="#10b981" strokeWidth={2} dot={false} name="Daromad" />
+                <Line dataKey="expenses" stroke="#ef4444" strokeWidth={2} dot={false} strokeDasharray="4 4" name="Xarajat" />
               </LineChart>
             </ResponsiveContainer>
           </div>
-          <div className="flex gap-4 mt-2 justify-center">
-            <div className="flex items-center gap-2 text-xs"><div className="w-6 h-0.5 bg-green-500 rounded"/><span style={{ color: '#94a3b8' }}>Daromad</span></div>
-            <div className="flex items-center gap-2 text-xs"><div className="w-6 border-t border-dashed border-red-500"/><span style={{ color: '#94a3b8' }}>Xarajat</span></div>
+          <div style={{ display: 'flex', gap: 16, marginTop: 8, justifyContent: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <div style={{ width: 24, height: 2, background: '#10b981', borderRadius: 1 }} />
+              <span style={{ color: '#94a3b8', fontSize: 11 }}>Daromad</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <div style={{ width: 24, height: 0, borderTop: '2px dashed #ef4444' }} />
+              <span style={{ color: '#94a3b8', fontSize: 11 }}>Xarajat</span>
+            </div>
           </div>
         </div>
 
-        {/* Score ring */}
-        <div className="rounded-2xl p-4" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}>
-          <h3 className="text-white font-bold mb-4">🎯 Bozor Talab Ko&apos;rsatkichlari</h3>
+        {/* Demand bar chart */}
+        <div style={chartCard}>
+          <h3 style={{ color: 'white', fontWeight: 800, fontSize: 14, marginBottom: 14 }}>🎯 Bozor Talab Ko&apos;rsatkichlari</h3>
           <div style={{ height: 180 }}>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={demandData} layout="vertical">
                 <XAxis type="number" domain={[0, 100]} tick={{ fill: '#475569', fontSize: 10 }} />
                 <YAxis dataKey="label" type="category" tick={{ fill: '#94a3b8', fontSize: 11 }} width={80} />
-                <Tooltip contentStyle={{ background: '#0f172a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12 }}
-                         formatter={(v) => [`${Number(v)}%`, 'Talab']} />
+                <Tooltip
+                  contentStyle={{ background: '#0f172a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12 }}
+                  formatter={(v) => [`${Number(v)}%`, 'Talab']}
+                />
                 <Bar dataKey="val" radius={[0, 8, 8, 0]}>
                   {demandData.map((d, i) => <Cell key={i} fill={d.color} />)}
                 </Bar>
@@ -96,21 +113,23 @@ export default function AnalyticsPage() {
           </div>
         </div>
 
-        {/* Area chart - growth */}
-        <div className="rounded-2xl p-4" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}>
-          <h3 className="text-white font-bold mb-4">📊 Foyda O&apos;sish Dinamikasi</h3>
+        {/* Profit growth area chart */}
+        <div style={chartCard}>
+          <h3 style={{ color: 'white', fontWeight: 800, fontSize: 14, marginBottom: 14 }}>📊 Foyda O&apos;sish Dinamikasi</h3>
           <div style={{ height: 160 }}>
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={monthlyData.map(d => ({ ...d, profit: d.revenue - d.expenses }))}>
                 <defs>
                   <linearGradient id="profitG" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.4}/>
-                    <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.4} />
+                    <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <XAxis dataKey="month" tick={{ fill: '#475569', fontSize: 9 }} />
-                <Tooltip contentStyle={{ background: '#0f172a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12 }}
-                         formatter={(v) => [`$${Number(v).toLocaleString()}`, 'Foyda']} />
+                <Tooltip
+                  contentStyle={{ background: '#0f172a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12 }}
+                  formatter={(v) => [`$${Number(v).toLocaleString()}`, 'Foyda']}
+                />
                 <Area dataKey="profit" stroke="#8b5cf6" strokeWidth={2} fill="url(#profitG)" dot={false} />
               </AreaChart>
             </ResponsiveContainer>
@@ -118,17 +137,17 @@ export default function AnalyticsPage() {
         </div>
 
         {/* Key metrics */}
-        <div className="grid grid-cols-2 gap-3">
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
           {[
             { icon: '⏱️', label: 'Breakeven', val: '8 oy', color: '#60a5fa' },
             { icon: '📊', label: '1 yillik ROI', val: '+124%', color: '#a78bfa' },
             { icon: '💹', label: "O'rtacha foyda", val: '$700/oy', color: '#34d399' },
             { icon: '🎯', label: 'Imkoniyat skori', val: '78/100', color: '#fb923c' },
           ].map((s, i) => (
-            <div key={i} className="rounded-2xl p-4 text-center" style={{ background: `${s.color}10`, border: `1px solid ${s.color}25` }}>
-              <div className="text-2xl mb-1">{s.icon}</div>
-              <div className="font-black text-xl" style={{ color: s.color }}>{s.val}</div>
-              <div style={{ color: '#64748b', fontSize: 11, marginTop: 2 }}>{s.label}</div>
+            <div key={i} style={{ background: `${s.color}0e`, border: `1px solid ${s.color}22`, borderRadius: 18, padding: 16, textAlign: 'center' }}>
+              <div style={{ fontSize: 24, marginBottom: 6 }}>{s.icon}</div>
+              <div style={{ color: s.color, fontWeight: 900, fontSize: 20 }}>{s.val}</div>
+              <div style={{ color: '#475569', fontSize: 11, marginTop: 4 }}>{s.label}</div>
             </div>
           ))}
         </div>
