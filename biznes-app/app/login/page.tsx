@@ -11,182 +11,248 @@ export default function LoginPage() {
   const [remember, setRemember] = useState(false);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [focusedField, setFocusedField] = useState<string | null>(null);
 
   const handleLogin = () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
       setSuccess(true);
-      setTimeout(() => router.push('/onboarding'), 800);
-    }, 1500);
+      setTimeout(() => router.push('/onboarding'), 900);
+    }, 1600);
   };
 
+  const glassCard = {
+    background: 'rgba(255,255,255,0.06)',
+    backdropFilter: 'blur(20px)',
+    WebkitBackdropFilter: 'blur(20px)',
+    border: '1px solid rgba(255,255,255,0.12)',
+    borderRadius: 20,
+  } as React.CSSProperties;
+
+  const inputStyle = (focused: boolean) => ({
+    width: '100%',
+    height: 52,
+    background: focused ? 'rgba(59,130,246,0.08)' : 'rgba(255,255,255,0.05)',
+    border: `1px solid ${focused ? 'rgba(99,102,241,0.6)' : 'rgba(255,255,255,0.1)'}`,
+    borderRadius: 16,
+    color: 'white',
+    fontSize: 14,
+    paddingLeft: 48,
+    paddingRight: 16,
+    outline: 'none',
+    boxShadow: focused ? '0 0 0 3px rgba(99,102,241,0.12), inset 0 1px 0 rgba(255,255,255,0.05)' : 'inset 0 1px 0 rgba(255,255,255,0.05)',
+    transition: 'all 0.25s ease',
+    fontFamily: 'Inter, sans-serif',
+  } as React.CSSProperties);
+
   return (
-    <div className="dark-app-bg min-h-screen flex flex-col items-center justify-center overflow-hidden">
-      <div className="w-full max-w-sm mx-auto min-h-screen relative flex flex-col overflow-hidden">
+    <div style={{ background: '#020617', minHeight: '100vh', color: 'white', fontFamily: 'Inter, sans-serif', display: 'flex', flexDirection: 'column', alignItems: 'center', overflow: 'hidden' }}>
+      {/* Inter font */}
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
-        {/* Animated Map Hero */}
-        <div className="relative w-full flex-shrink-0 map-hero">
-          {/* Grid */}
-          <div className="absolute inset-0 map-grid" />
-          {/* Roads */}
-          <div className="map-road-h" style={{ top: '35%', left: 0, width: '100%' }} />
-          <div className="map-road-h" style={{ top: '58%', left: 0, width: '100%' }} />
-          <div className="map-road-h" style={{ top: '75%', left: 0, width: '100%' }} />
-          <div className="map-road-v" style={{ left: '22%', top: 0, height: '100%' }} />
-          <div className="map-road-v" style={{ left: '50%', top: 0, height: '100%' }} />
-          <div className="map-road-v" style={{ left: '75%', top: 0, height: '100%' }} />
+      <div style={{ width: '100%', maxWidth: 430, minHeight: '100vh', position: 'relative', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+
+        {/* ── MAP HERO SECTION ── */}
+        <div style={{ position: 'relative', width: '100%', height: 340, background: '#080f1e', flexShrink: 0, overflow: 'hidden' }}>
+          {/* Grid lines */}
+          <div style={{
+            position: 'absolute', inset: 0,
+            backgroundImage: 'linear-gradient(rgba(59,130,246,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.08) 1px, transparent 1px)',
+            backgroundSize: '30px 30px',
+          }} />
+
+          {/* Subtle ambient glow */}
+          <div style={{ position: 'absolute', top: '20%', left: '40%', width: 200, height: 200, borderRadius: '50%', background: 'radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%)', transform: 'translate(-50%,-50%)' }} />
+          <div style={{ position: 'absolute', top: '60%', right: '10%', width: 150, height: 150, borderRadius: '50%', background: 'radial-gradient(circle, rgba(139,92,246,0.1) 0%, transparent 70%)' }} />
+
+          {/* Roads - horizontal */}
+          {[{ top: '33%' }, { top: '56%' }, { top: '74%' }].map((r, i) => (
+            <div key={i} style={{ position: 'absolute', top: r.top, left: 0, width: '100%', height: 3, background: 'rgba(148,163,184,0.15)', borderRadius: 2 }} />
+          ))}
+          {/* Roads - vertical */}
+          {[{ left: '20%' }, { left: '48%' }, { left: '73%' }].map((r, i) => (
+            <div key={i} style={{ position: 'absolute', left: r.left, top: 0, width: 3, height: '100%', background: 'rgba(148,163,184,0.15)', borderRadius: 2 }} />
+          ))}
+
           {/* Buildings */}
-          <div className="map-building" style={{ top: '28%', left: '18%', width: 60, height: 40, borderColor: 'rgba(59,130,246,0.3)' }} />
-          <div className="map-building" style={{ top: '20%', left: '52%', width: 80, height: 30, borderColor: 'rgba(59,130,246,0.25)' }} />
-          <div className="map-building" style={{ top: '62%', left: '26%', width: 50, height: 35, borderColor: 'rgba(59,130,246,0.25)' }} />
-          <div className="map-building" style={{ top: '62%', left: '52%', width: 70, height: 35, borderColor: 'rgba(139,92,246,0.25)', background: 'rgba(55,48,163,0.2)' }} />
-          <div className="map-building" style={{ top: '20%', left: '78%', width: 40, height: 50, borderColor: 'rgba(16,185,129,0.2)', background: 'rgba(5,150,105,0.15)' }} />
+          <div style={{ position: 'absolute', top: '22%', left: '22%', width: 55, height: 36, background: 'rgba(30,64,175,0.25)', border: '1px solid rgba(59,130,246,0.3)', borderRadius: 5 }} />
+          <div style={{ position: 'absolute', top: '14%', left: '51%', width: 76, height: 28, background: 'rgba(30,64,175,0.2)', border: '1px solid rgba(59,130,246,0.22)', borderRadius: 5 }} />
+          <div style={{ position: 'absolute', top: '60%', left: '24%', width: 48, height: 32, background: 'rgba(30,64,175,0.2)', border: '1px solid rgba(59,130,246,0.22)', borderRadius: 5 }} />
+          <div style={{ position: 'absolute', top: '60%', left: '51%', width: 68, height: 32, background: 'rgba(55,48,163,0.22)', border: '1px solid rgba(139,92,246,0.25)', borderRadius: 5 }} />
+          <div style={{ position: 'absolute', top: '16%', left: '77%', width: 38, height: 46, background: 'rgba(5,150,105,0.18)', border: '1px solid rgba(16,185,129,0.2)', borderRadius: 5 }} />
 
-          {/* Main pin */}
-          <div className="main-pin" style={{ top: '28%', left: '47%' }}>
-            <div className="pin-ring ring-1" />
-            <div className="pin-ring ring-2" />
-            <div className="pin-dot">
-              <svg width="16" height="20" viewBox="0 0 24 24" fill="white"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          {/* Radius circles */}
+          <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}>
+            <circle cx="48%" cy="43%" r="50" fill="none" stroke="rgba(59,130,246,0.18)" strokeWidth="1.5" strokeDasharray="6 4" />
+            <circle cx="48%" cy="43%" r="85" fill="none" stroke="rgba(139,92,246,0.1)" strokeWidth="1" strokeDasharray="4 6" />
+          </svg>
+
+          {/* Main pin with rings */}
+          <div className="main-pin-wrap" style={{ position: 'absolute', top: '26%', left: '44%' }}>
+            <div className="pin-ring-1" />
+            <div className="pin-ring-2" />
+            <div className="pin-core">
+              <svg width="14" height="18" viewBox="0 0 24 30" fill="white">
+                <path d="M12 0C7.6 0 4 3.6 4 8c0 6 8 22 8 22s8-16 8-22c0-4.4-3.6-8-8-8zm0 11c-1.7 0-3-1.3-3-3s1.3-3 3-3 3 1.3 3 3-1.3 3-3 3z"/>
+              </svg>
             </div>
           </div>
 
           {/* Business pins */}
-          <div className="biz-pin" style={{ top: '42%', left: '22%', background: 'rgba(34,197,94,0.8)', boxShadow: '0 4px 12px rgba(34,197,94,0.4)' }}>🏪</div>
-          <div className="biz-pin" style={{ top: '38%', left: '65%', background: 'rgba(249,115,22,0.8)', boxShadow: '0 4px 12px rgba(249,115,22,0.4)' }}>🍽️</div>
-          <div className="biz-pin" style={{ top: '60%', left: '78%', background: 'rgba(236,72,153,0.8)', boxShadow: '0 4px 12px rgba(236,72,153,0.4)' }}>✂️</div>
-          <div className="biz-pin" style={{ top: '68%', left: '38%', background: 'rgba(234,179,8,0.8)', boxShadow: '0 4px 12px rgba(234,179,8,0.4)' }}>☕</div>
+          <div className="biz-pin-dot" style={{ top: '40%', left: '19%', background: 'rgba(34,197,94,0.85)', boxShadow: '0 4px 14px rgba(34,197,94,0.45)' }}>🏪</div>
+          <div className="biz-pin-dot" style={{ top: '36%', left: '64%', background: 'rgba(249,115,22,0.85)', boxShadow: '0 4px 14px rgba(249,115,22,0.45)' }}>🍽️</div>
+          <div className="biz-pin-dot" style={{ top: '59%', left: '77%', background: 'rgba(236,72,153,0.85)', boxShadow: '0 4px 14px rgba(236,72,153,0.45)' }}>✂️</div>
+          <div className="biz-pin-dot" style={{ top: '67%', left: '36%', background: 'rgba(234,179,8,0.85)', boxShadow: '0 4px 14px rgba(234,179,8,0.45)' }}>☕</div>
 
-          {/* Stat bubbles */}
-          <div className="stat-bubble" style={{ top: '10%', left: '4%', animationDelay: '0.8s' }}>
-            <div className="stat-icon" style={{ background: 'rgba(34,197,94,0.2)' }}>📈</div>
-            <div><div className="stat-val text-green-400">+34%</div><div className="stat-label">Daromad</div></div>
+          {/* Floating stat bubbles */}
+          <div className="stat-float" style={{ top: '8%', left: '3%', animationDelay: '0.4s' }}>
+            <div style={{ width: 28, height: 28, borderRadius: '50%', background: 'rgba(34,197,94,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12 }}>📈</div>
+            <div>
+              <div style={{ fontSize: 13, fontWeight: 800, color: '#4ade80', lineHeight: 1 }}>+34%</div>
+              <div style={{ fontSize: 9, color: '#64748b', marginTop: 2 }}>Daromad</div>
+            </div>
           </div>
-          <div className="stat-bubble" style={{ top: '12%', right: '4%', animationDelay: '1s' }}>
-            <div className="stat-icon" style={{ background: 'rgba(59,130,246,0.2)' }}>👥</div>
-            <div><div className="stat-val text-blue-400">12.4K</div><div className="stat-label">Aholi</div></div>
+          <div className="stat-float" style={{ top: '9%', right: '3%', animationDelay: '0.65s' }}>
+            <div style={{ width: 28, height: 28, borderRadius: '50%', background: 'rgba(59,130,246,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12 }}>👥</div>
+            <div>
+              <div style={{ fontSize: 13, fontWeight: 800, color: '#60a5fa', lineHeight: 1 }}>12.4K</div>
+              <div style={{ fontSize: 9, color: '#64748b', marginTop: 2 }}>Aholi</div>
+            </div>
           </div>
-          <div className="stat-bubble" style={{ bottom: '16%', right: '4%', animationDelay: '1.2s' }}>
-            <div className="stat-icon" style={{ background: 'rgba(139,92,246,0.2)' }}>📊</div>
-            <div><div className="stat-val text-purple-400">Tahlil</div><div className="stat-label">Raqobat</div></div>
+          <div className="stat-float" style={{ bottom: '18%', right: '3%', animationDelay: '0.9s' }}>
+            <div style={{ width: 28, height: 28, borderRadius: '50%', background: 'rgba(139,92,246,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12 }}>📊</div>
+            <div>
+              <div style={{ fontSize: 13, fontWeight: 800, color: '#a78bfa', lineHeight: 1 }}>Tahlil</div>
+              <div style={{ fontSize: 9, color: '#64748b', marginTop: 2 }}>Raqobat</div>
+            </div>
           </div>
 
-          {/* Gradient overlay */}
-          <div className="absolute inset-x-0 bottom-0 h-24" style={{ background: 'linear-gradient(to top, #020617, transparent)' }} />
+          {/* Bottom fade */}
+          <div style={{ position: 'absolute', inset: 'auto 0 0 0', height: 100, background: 'linear-gradient(to top, #020617 0%, rgba(2,6,23,0.7) 60%, transparent 100%)' }} />
         </div>
 
-        {/* Content */}
-        <div className="flex-1 flex flex-col px-5 pt-2 pb-8">
+        {/* ── CONTENT SECTION ── */}
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: '4px 20px 32px' }}>
+
           {/* Brand */}
-          <div className="text-center mb-6 animate-slideUp" style={{ animationDelay: '0.3s' }}>
-            <div className="flex items-center justify-center gap-2 mb-2">
-              <div className="w-9 h-9 rounded-2xl flex items-center justify-center shadow-lg"
-                   style={{ background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)', boxShadow: '0 8px 20px rgba(59,130,246,0.35)' }}>
-                🗺️
-              </div>
-              <span className="text-2xl font-black" style={{ background: 'linear-gradient(135deg, #60a5fa, #a78bfa, #34d399)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                BizPlan Map
-              </span>
+          <div className="anim-up" style={{ textAlign: 'center', marginBottom: 20, animationDelay: '0.1s' } as React.CSSProperties}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, marginBottom: 8 }}>
+              <div style={{ width: 40, height: 40, borderRadius: 14, background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 8px 24px rgba(59,130,246,0.4)', fontSize: 18 }}>🗺️</div>
+              <span style={{ fontSize: 26, fontWeight: 900, background: 'linear-gradient(135deg, #60a5fa, #a78bfa, #34d399)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', letterSpacing: '-0.5px' }}>BizPlan Map</span>
             </div>
-            <p className="text-sm" style={{ color: '#94a3b8' }}>Joylashuvga asoslangan biznes tahlili va<br />maslahat platformasi</p>
+            <p style={{ fontSize: 12, color: '#64748b', lineHeight: 1.5 }}>Joylashuvga asoslangan biznes tahlili va<br />maslahat platformasi</p>
           </div>
 
-          {/* Feature cards */}
-          <div className="flex gap-3 mb-6">
+          {/* Feature mini-cards */}
+          <div className="anim-up" style={{ display: 'flex', gap: 10, marginBottom: 20, animationDelay: '0.2s' } as React.CSSProperties}>
             {[
-              { icon: '📍', title: 'Joy tanlash', desc: 'Xaritadan manzil belgilang', delay: '0.1s', color: '#3b82f6' },
-              { icon: '📊', title: 'Tahlil', desc: 'Raqobat va demografiya', delay: '0.25s', color: '#8b5cf6' },
-              { icon: '💡', title: 'Maslahat', desc: 'Foyda-zarar hisobi', delay: '0.4s', color: '#10b981' },
+              { icon: '📍', title: 'Joy tanlash', desc: 'Xaritadan manzil', color: '#3b82f6' },
+              { icon: '📊', title: 'Tahlil', desc: 'Raqobat & demog.', color: '#8b5cf6' },
+              { icon: '💡', title: 'Maslahat', desc: 'Foyda-zarar hisobi', color: '#10b981' },
             ].map((f, i) => (
-              <div key={i} className="flex-1 glass-dark rounded-2xl p-3 text-center animate-slideUp" style={{ animationDelay: f.delay }}>
-                <div className="w-9 h-9 rounded-xl flex items-center justify-center mx-auto mb-2 text-lg"
-                     style={{ background: `${f.color}22` }}>
-                  {f.icon}
-                </div>
-                <div className="text-white font-semibold text-xs mb-1">{f.title}</div>
-                <div className="text-xs leading-tight" style={{ color: '#64748b' }}>{f.desc}</div>
+              <div key={i} style={{ ...glassCard, flex: 1, padding: '12px 8px', textAlign: 'center', borderRadius: 16, boxShadow: `0 4px 20px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.06)` }}>
+                <div style={{ width: 36, height: 36, borderRadius: 12, background: `${f.color}1a`, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 8px', fontSize: 16 }}>{f.icon}</div>
+                <div style={{ color: 'white', fontWeight: 700, fontSize: 11, marginBottom: 3 }}>{f.title}</div>
+                <div style={{ fontSize: 9.5, color: '#475569', lineHeight: 1.3 }}>{f.desc}</div>
               </div>
             ))}
           </div>
 
-          {/* Form */}
-          <div className="space-y-3 mb-4 animate-slideUp" style={{ animationDelay: '0.5s' }}>
-            <div>
-              <label className="block text-xs font-medium mb-1.5" style={{ color: '#94a3b8' }}>Telefon yoki Email</label>
-              <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500">✉️</span>
-                <input
-                  type="email" value={email} onChange={e => setEmail(e.target.value)}
-                  placeholder="email@example.com"
-                  className="dark-input w-full h-12 rounded-2xl pl-11 pr-4 text-sm"
-                />
-              </div>
-            </div>
-            <div>
-              <label className="block text-xs font-medium mb-1.5" style={{ color: '#94a3b8' }}>Parol</label>
-              <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500">🔒</span>
-                <input
-                  type={showPw ? 'text' : 'password'} value={password} onChange={e => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  className="dark-input w-full h-12 rounded-2xl pl-11 pr-12 text-sm"
-                />
-                <button onClick={() => setShowPw(!showPw)}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300">
-                  {showPw ? '🙈' : '👁️'}
-                </button>
-              </div>
+          {/* Form fields */}
+          <div className="anim-up" style={{ marginBottom: 14, animationDelay: '0.3s' } as React.CSSProperties}>
+            <label style={{ display: 'block', fontSize: 11, fontWeight: 600, color: '#94a3b8', marginBottom: 6, letterSpacing: '0.02em' }}>Telefon yoki Email</label>
+            <div style={{ position: 'relative' }}>
+              <span style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', fontSize: 16 }}>✉️</span>
+              <input
+                type="email" value={email} onChange={e => setEmail(e.target.value)}
+                placeholder="email@example.com"
+                onFocus={() => setFocusedField('email')}
+                onBlur={() => setFocusedField(null)}
+                style={{ ...inputStyle(focusedField === 'email') }}
+              />
             </div>
           </div>
 
-          <div className="flex items-center justify-between mb-5 animate-slideUp" style={{ animationDelay: '0.55s' }}>
-            <label className="flex items-center gap-2 cursor-pointer" onClick={() => setRemember(!remember)}>
-              <div className={`w-5 h-5 rounded-md border flex items-center justify-center transition-all
-                ${remember ? 'bg-blue-600 border-blue-500' : 'border-slate-600'}`}>
-                {remember && <span className="text-white text-xs">✓</span>}
+          <div className="anim-up" style={{ marginBottom: 12, animationDelay: '0.35s' } as React.CSSProperties}>
+            <label style={{ display: 'block', fontSize: 11, fontWeight: 600, color: '#94a3b8', marginBottom: 6, letterSpacing: '0.02em' }}>Parol</label>
+            <div style={{ position: 'relative' }}>
+              <span style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', fontSize: 16 }}>🔒</span>
+              <input
+                type={showPw ? 'text' : 'password'} value={password} onChange={e => setPassword(e.target.value)}
+                placeholder="••••••••"
+                onFocus={() => setFocusedField('password')}
+                onBlur={() => setFocusedField(null)}
+                style={{ ...inputStyle(focusedField === 'password'), paddingRight: 48 }}
+              />
+              <button onClick={() => setShowPw(!showPw)}
+                      style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', fontSize: 16, color: '#64748b', padding: 4 }}>
+                {showPw ? '🙈' : '👁️'}
+              </button>
+            </div>
+          </div>
+
+          {/* Remember + Forgot */}
+          <div className="anim-up" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 18, animationDelay: '0.4s' } as React.CSSProperties}>
+            <label onClick={() => setRemember(!remember)} style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
+              <div style={{ width: 20, height: 20, borderRadius: 6, border: `2px solid ${remember ? '#3b82f6' : 'rgba(255,255,255,0.2)'}`, background: remember ? 'linear-gradient(135deg,#3b82f6,#8b5cf6)' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s', flexShrink: 0 }}>
+                {remember && <span style={{ color: 'white', fontSize: 11, fontWeight: 900, lineHeight: 1 }}>✓</span>}
               </div>
-              <span className="text-xs" style={{ color: '#94a3b8' }}>Eslab qolish</span>
+              <span style={{ fontSize: 12, color: '#94a3b8' }}>Eslab qolish</span>
             </label>
-            <button className="text-xs font-medium" style={{ color: '#60a5fa' }}>Parolni unutdim?</button>
+            <button style={{ fontSize: 12, fontWeight: 600, color: '#60a5fa', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>Parolni unutdim?</button>
           </div>
 
+          {/* Login button */}
           <button
             onClick={handleLogin}
             disabled={loading}
-            className="w-full h-14 rounded-2xl text-white font-bold text-base flex items-center justify-center gap-3 mb-4 transition-all active:scale-95"
+            className="anim-up"
             style={{
+              width: '100%', height: 56, borderRadius: 18,
               background: success ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #3b82f6, #8b5cf6)',
-              boxShadow: '0 8px 32px rgba(59,130,246,0.4)',
-            }}>
+              boxShadow: success ? '0 8px 32px rgba(16,185,129,0.4)' : '0 8px 32px rgba(59,130,246,0.4)',
+              color: 'white', fontWeight: 800, fontSize: 15,
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+              marginBottom: 16, border: 'none', cursor: loading ? 'not-allowed' : 'pointer',
+              transition: 'all 0.3s ease',
+              animationDelay: '0.45s',
+              fontFamily: 'Inter, sans-serif',
+            } as React.CSSProperties}
+          >
             {loading ? (
-              <><span className="loading-dots"><span/><span/><span/></span></>
+              <span className="dot-loader"><span /><span /><span /></span>
             ) : success ? (
-              <><span>✓</span><span>Muvaffaqiyatli!</span></>
+              <><span style={{ fontSize: 18 }}>✓</span><span>Muvaffaqiyatli!</span></>
             ) : (
-              <><span>🗺️</span><span>Kirish va Tahlil Boshlash</span></>
+              <><span style={{ fontSize: 18 }}>🗺️</span><span>Kirish va Tahlil Boshlash</span></>
             )}
           </button>
 
-          <div className="flex items-center gap-3 mb-4">
-            <div className="flex-1 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent)' }} />
-            <span className="text-xs" style={{ color: '#475569' }}>yoki</span>
-            <div className="flex-1 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent)' }} />
+          {/* OR divider */}
+          <div className="anim-up" style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14, animationDelay: '0.5s' } as React.CSSProperties}>
+            <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)' }} />
+            <span style={{ fontSize: 11, color: '#334155', fontWeight: 500 }}>yoki</span>
+            <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)' }} />
           </div>
 
-          <div className="flex gap-3 mb-5">
-            <button onClick={() => router.push('/onboarding')}
-                    className="flex-1 glass-dark h-12 rounded-2xl flex items-center justify-center gap-2 hover:border-slate-500 transition-all">
-              <span>🔴</span><span className="text-sm font-medium text-slate-300">Google</span>
-            </button>
-            <button className="flex-1 glass-dark h-12 rounded-2xl flex items-center justify-center gap-2 hover:border-slate-500 transition-all">
-              <span>🍎</span><span className="text-sm font-medium text-slate-300">Apple</span>
-            </button>
+          {/* Social buttons */}
+          <div className="anim-up" style={{ display: 'flex', gap: 12, marginBottom: 18, animationDelay: '0.55s' } as React.CSSProperties}>
+            {[
+              { icon: '🔴', label: 'Google', action: () => router.push('/onboarding') },
+              { icon: '⚫', label: 'Apple', action: () => {} },
+            ].map((b, i) => (
+              <button key={i} onClick={b.action} style={{ flex: 1, height: 48, ...glassCard, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, cursor: 'pointer', border: '1px solid rgba(255,255,255,0.1)', transition: 'all 0.2s', fontFamily: 'Inter, sans-serif' }}>
+                <span style={{ fontSize: 18 }}>{b.icon}</span>
+                <span style={{ fontSize: 13, fontWeight: 600, color: '#cbd5e1' }}>{b.label}</span>
+              </button>
+            ))}
           </div>
 
-          <div className="text-center">
-            <span className="text-sm" style={{ color: '#475569' }}>Hisobingiz yo'qmi? </span>
-            <button onClick={() => router.push('/onboarding')} className="text-sm font-semibold" style={{ color: '#60a5fa' }}>
+          {/* Register link */}
+          <div className="anim-up" style={{ textAlign: 'center', animationDelay: '0.6s' } as React.CSSProperties}>
+            <span style={{ fontSize: 13, color: '#475569' }}>Hisobingiz yo'qmi? </span>
+            <button onClick={() => router.push('/onboarding')} style={{ fontSize: 13, fontWeight: 700, color: '#60a5fa', background: 'none', border: 'none', cursor: 'pointer', padding: 0, fontFamily: 'Inter, sans-serif' }}>
               Ro'yxatdan o'tish
             </button>
           </div>
@@ -194,71 +260,63 @@ export default function LoginPage() {
       </div>
 
       <style>{`
-        .dark-app-bg { background: #020617; color: white; font-family: 'Inter', sans-serif; }
-        .map-hero { height: 340px; background: #0f172a; position: relative; overflow: hidden; }
-        .map-grid {
-          background-image: linear-gradient(rgba(59,130,246,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.08) 1px, transparent 1px);
-          background-size: 28px 28px;
-        }
-        .map-road-h { position: absolute; height: 3px; background: rgba(148,163,184,0.2); border-radius: 2px; }
-        .map-road-v { position: absolute; width: 3px; background: rgba(148,163,184,0.2); border-radius: 2px; }
-        .map-building { position: absolute; background: rgba(30,64,175,0.2); border: 1px solid; border-radius: 4px; }
-        .glass-dark {
-          background: rgba(255,255,255,0.06);
-          backdrop-filter: blur(20px);
-          border: 1px solid rgba(255,255,255,0.1);
-          border-radius: 16px;
-        }
-        .dark-input {
-          background: rgba(255,255,255,0.07);
-          border: 1px solid rgba(255,255,255,0.1);
-          color: white;
-          outline: none;
-          transition: all 0.3s;
-        }
-        .dark-input:focus { background: rgba(255,255,255,0.1); border-color: rgba(99,102,241,0.6); box-shadow: 0 0 0 3px rgba(99,102,241,0.15); }
-        .dark-input::placeholder { color: #334155; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+        * { box-sizing: border-box; }
+        input::placeholder { color: #334155; }
+        input::-webkit-input-placeholder { color: #334155; }
 
-        .main-pin { position: absolute; }
-        .pin-ring { position: absolute; border-radius: 50%; border: 2px solid rgba(59,130,246,0.4); }
-        .ring-1 { width: 40px; height: 40px; top: -4px; left: -4px; animation: ping 2s ease-out infinite; }
-        .ring-2 { width: 56px; height: 56px; top: -12px; left: -12px; border: 1px solid rgba(59,130,246,0.2); animation: ping 2s ease-out infinite 0.7s; }
-        .pin-dot {
+        /* Main pin */
+        .main-pin-wrap { width: 32px; height: 32px; }
+        .pin-ring-1 {
+          position: absolute; width: 44px; height: 44px; border-radius: 50%;
+          border: 2px solid rgba(59,130,246,0.45);
+          top: -6px; left: -6px;
+          animation: pingRing 2.2s ease-out infinite;
+        }
+        .pin-ring-2 {
+          position: absolute; width: 62px; height: 62px; border-radius: 50%;
+          border: 1px solid rgba(59,130,246,0.2);
+          top: -15px; left: -15px;
+          animation: pingRing 2.2s ease-out 0.8s infinite;
+        }
+        .pin-core {
           width: 32px; height: 32px; border-radius: 50%;
           background: linear-gradient(135deg, #3b82f6, #8b5cf6);
           display: flex; align-items: center; justify-content: center;
-          box-shadow: 0 4px 15px rgba(99,102,241,0.5);
+          box-shadow: 0 4px 18px rgba(99,102,241,0.55);
           position: relative; z-index: 10;
-          animation: float 3s ease-in-out infinite;
+          animation: pinFloat 3s ease-in-out infinite;
         }
-        @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-        @keyframes ping { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(2.5); opacity: 0; } }
+        @keyframes pingRing { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(2.4); opacity: 0; } }
+        @keyframes pinFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
-        .biz-pin {
-          position: absolute; width: 24px; height: 24px; border-radius: 50%;
+        /* Business pins */
+        .biz-pin-dot {
+          position: absolute; width: 26px; height: 26px; border-radius: 50%;
           display: flex; align-items: center; justify-content: center;
-          font-size: 10px; border: 1px solid rgba(255,255,255,0.3);
+          font-size: 11px; border: 1.5px solid rgba(255,255,255,0.35);
         }
-        .stat-bubble {
+
+        /* Stat bubbles */
+        .stat-float {
           position: absolute; display: flex; align-items: center; gap: 8px;
-          background: rgba(255,255,255,0.06); backdrop-filter: blur(20px);
-          border: 1px solid rgba(255,255,255,0.1); border-radius: 12px;
+          background: rgba(255,255,255,0.07); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+          border: 1px solid rgba(255,255,255,0.13); border-radius: 13px;
           padding: 8px 12px;
-          animation: fadeIn 0.8s ease forwards; opacity: 0;
+          opacity: 0; animation: fadeSlideIn 0.7s ease forwards;
         }
-        .stat-icon { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; }
-        .stat-val { font-size: 12px; font-weight: 700; line-height: 1; }
-        .stat-label { font-size: 9px; color: #64748b; line-height: 1; margin-top: 1px; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeSlideIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-        .animate-slideUp { animation: slideUp 0.7s ease forwards; opacity: 0; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        /* Slide up animations */
+        .anim-up { opacity: 0; animation: animUp 0.6s ease forwards; }
+        @keyframes animUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
 
-        .loading-dots { display: flex; gap: 6px; }
-        .loading-dots span { width: 8px; height: 8px; border-radius: 50%; background: white; animation: dotBounce 1.4s ease-in-out infinite; }
-        .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
-        .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes dotBounce { 0%,80%,100% { transform: scale(0.6); opacity: 0.4; } 40% { transform: scale(1); opacity: 1; } }
+        /* Loading dots */
+        .dot-loader { display: flex; gap: 6px; align-items: center; }
+        .dot-loader span { width: 8px; height: 8px; border-radius: 50%; background: white; animation: dotBounce 1.3s ease-in-out infinite; }
+        .dot-loader span:nth-child(2) { animation-delay: 0.18s; }
+        .dot-loader span:nth-child(3) { animation-delay: 0.36s; }
+        @keyframes dotBounce { 0%,80%,100% { transform: scale(0.55); opacity: 0.4; } 40% { transform: scale(1); opacity: 1; } }
       `}</style>
     </div>
   );

@@ -5,12 +5,9 @@ import { useRouter } from 'next/navigation';
 
 const steps = [
   {
-    badge: '1-Qadam',
-    badgeColor: '#60a5fa',
-    icon: '🗺️',
-    iconBg: 'rgba(59,130,246,0.15)',
-    title: 'Xaritadan joy',
-    titleGrad: 'tanlang',
+    badge: '1-Qadam', badgeColor: '#60a5fa',
+    iconBg: 'rgba(59,130,246,0.18)', icon: '🗺️',
+    title: 'Xaritadan joy', titleGrad: 'tanlang',
     desc: 'Biznesingizni ochmoqchi bo\'lgan manzilni xaritada belgilang. Tizim shu joydagi aholi, yo\'l va infratuzilmani tahlil qiladi.',
     cards: [
       { icon: '👆', title: 'Xaritaga bosing', desc: 'Istalgan manzilni bir marta bosib belgilang', color: '#3b82f6' },
@@ -19,12 +16,9 @@ const steps = [
     ],
   },
   {
-    badge: '2-Qadam',
-    badgeColor: '#a78bfa',
-    icon: '💡',
-    iconBg: 'rgba(139,92,246,0.15)',
-    title: 'G\'oya va byudjet',
-    titleGrad: 'kiriting',
+    badge: '2-Qadam', badgeColor: '#a78bfa',
+    iconBg: 'rgba(139,92,246,0.18)', icon: '💡',
+    title: 'G\'oya va byudjet', titleGrad: 'kiriting',
     desc: 'Biznes turini tanlang, g\'oyangizni qisqacha yozing va boshlang\'ich byudjetingizni belgilang.',
     cards: [
       { icon: '📋', title: 'Biznes turini tanlang', desc: 'Kafe, do\'kon, xizmat va boshqalar', color: '#3b82f6' },
@@ -33,12 +27,9 @@ const steps = [
     ],
   },
   {
-    badge: '3-Qadam',
-    badgeColor: '#34d399',
-    icon: '📊',
-    iconBg: 'rgba(16,185,129,0.15)',
-    title: 'Tahlil va',
-    titleGrad: 'maslahatlar',
+    badge: '3-Qadam', badgeColor: '#34d399',
+    iconBg: 'rgba(16,185,129,0.18)', icon: '📊',
+    title: 'Tahlil va', titleGrad: 'maslahatlar',
     desc: 'Tizim demografiya, raqobat va bozor tahlilini avtomatik bajarib, foyda-zarar hisob-kitobini beradi.',
     cards: [
       { icon: '👥', title: 'Demografik tahlil', desc: 'Aholi zichligi va yosh tarkibi', color: '#3b82f6', percent: 78 },
@@ -47,12 +38,9 @@ const steps = [
     ],
   },
   {
-    badge: '4-Qadam',
-    badgeColor: '#60a5fa',
-    icon: '🧠',
-    iconBg: 'rgba(59,130,246,0.15)',
-    title: 'Aholi, ehtiyoj va',
-    titleGrad: 'foyda-zarar tahlili',
+    badge: '4-Qadam', badgeColor: '#60a5fa',
+    iconBg: 'rgba(59,130,246,0.18)', icon: '🧠',
+    title: 'Aholi, ehtiyoj va', titleGrad: 'foyda-zarar tahlili',
     desc: 'Tizim tanlangan joydagi aholi soni, bozor ehtiyojlari, raqobat darajasi va kutilayotgan foyda-zarar ko\'rsatkichlarini avtomatik hisoblaydi.',
     cards: [
       { icon: '👥', title: 'Aholi soni tahlili', desc: 'Zichlik, yosh tarkibi va daromad darajasi', color: '#3b82f6', percent: 78, val: '12.4K' },
@@ -60,194 +48,213 @@ const steps = [
       { icon: '🏆', title: 'Raqobat darajasi', desc: 'Atrofdagi o\'xshash bizneslar soni', color: '#f97316', percent: 45, val: 'O\'rta' },
       { icon: '⚖️', title: 'Foyda-zarar hisobi', desc: 'Boshlash bo\'yicha maslahatlar va prognoz', color: '#10b981', percent: 72, val: '+34%' },
     ],
-    tip: { icon: '💡', color: '#2dd4bf', title: 'Aqlli maslahat', desc: 'Xaritadagi animatsiyali grafiklar orqali atrofdagi bizneslar ta\'sirini ko\'ring' },
   },
 ];
 
-function MapVisual({ step }: { step: number }) {
-  if (step === 0) return (
-    <div className="absolute inset-0" style={{ background: '#0f172a' }}>
-      <div className="absolute inset-0 map-grid" />
+const glassDark: React.CSSProperties = {
+  background: 'rgba(255,255,255,0.06)',
+  backdropFilter: 'blur(20px)',
+  WebkitBackdropFilter: 'blur(20px)',
+  border: '1px solid rgba(255,255,255,0.12)',
+};
+
+// ── Step 0: Map visual ──
+function VisualStep0() {
+  return (
+    <div style={{ position: 'absolute', inset: 0, background: '#08111f', overflow: 'hidden' }}>
+      <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(59,130,246,0.07) 1px, transparent 1px), linear-gradient(90deg,rgba(59,130,246,0.07) 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
       {/* Roads */}
-      <div className="map-road-h" style={{ top: '35%', width: '100%', left: 0 }} />
-      <div className="map-road-h" style={{ top: '58%', width: '100%', left: 0 }} />
-      <div className="map-road-h" style={{ top: '78%', width: '100%', left: 0 }} />
-      <div className="map-road-v" style={{ left: '22%', height: '100%', top: 0 }} />
-      <div className="map-road-v" style={{ left: '50%', height: '100%', top: 0 }} />
-      <div className="map-road-v" style={{ left: '75%', height: '100%', top: 0 }} />
+      {[{top:'33%'},{top:'56%'},{top:'76%'}].map((r,i)=>(
+        <div key={i} style={{ position:'absolute', top:r.top, left:0, width:'100%', height:3, background:'rgba(148,163,184,0.15)', borderRadius:2 }} />
+      ))}
+      {[{left:'20%'},{left:'48%'},{left:'73%'}].map((r,i)=>(
+        <div key={i} style={{ position:'absolute', left:r.left, top:0, width:3, height:'100%', background:'rgba(148,163,184,0.15)', borderRadius:2 }} />
+      ))}
       {/* Buildings */}
-      <div className="map-building" style={{ top: '20%', left: '55%', width: 70, height: 30 }} />
-      <div className="map-building" style={{ top: '40%', left: '26%', width: 50, height: 35 }} />
-      <div className="map-building" style={{ top: '62%', left: '52%', width: 65, height: 30, borderColor: 'rgba(139,92,246,0.25)', background: 'rgba(55,48,163,0.2)' }} />
-      {/* Circles */}
-      <svg className="absolute inset-0 w-full h-full" style={{ pointerEvents: 'none' }}>
-        <circle cx="50%" cy="44%" r="48" fill="none" stroke="rgba(59,130,246,0.15)" strokeWidth="1" strokeDasharray="6 4"/>
-        <circle cx="50%" cy="44%" r="80" fill="none" stroke="rgba(139,92,246,0.08)" strokeWidth="1" strokeDasharray="4 6"/>
+      <div style={{ position:'absolute', top:'16%', left:'52%', width:72, height:28, background:'rgba(30,64,175,0.22)', border:'1px solid rgba(59,130,246,0.25)', borderRadius:5 }} />
+      <div style={{ position:'absolute', top:'38%', left:'24%', width:52, height:34, background:'rgba(30,64,175,0.2)', border:'1px solid rgba(59,130,246,0.2)', borderRadius:5 }} />
+      <div style={{ position:'absolute', top:'60%', left:'50%', width:66, height:30, background:'rgba(55,48,163,0.2)', border:'1px solid rgba(139,92,246,0.22)', borderRadius:5 }} />
+      {/* Radius circles */}
+      <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%', pointerEvents:'none' }}>
+        <circle cx="50%" cy="46%" r="52" fill="none" stroke="rgba(59,130,246,0.2)" strokeWidth="1.5" strokeDasharray="6 4"/>
+        <circle cx="50%" cy="46%" r="88" fill="none" stroke="rgba(139,92,246,0.1)" strokeWidth="1" strokeDasharray="4 6"/>
       </svg>
       {/* Main pin */}
-      <div style={{ position: 'absolute', top: '32%', left: '46%' }}>
-        <div style={{ position: 'relative' }}>
-          <div className="pin-ring ping" style={{ width: 40, height: 40, top: -4, left: -4 }} />
-          <div className="pin-ring pulse-r" style={{ width: 56, height: 56, top: -12, left: -12 }} />
-          <div className="pin-dot"><span>📍</span></div>
-        </div>
+      <div style={{ position:'absolute', top:'32%', left:'46%' }}>
+        <div className="pin-ring-1" /><div className="pin-ring-2" />
+        <div className="pin-core"><span>📍</span></div>
       </div>
       {/* Biz pins */}
-      <div className="biz-pin" style={{ top: '48%', left: '20%', background: 'rgba(249,115,22,0.8)' }}>🏪</div>
-      <div className="biz-pin" style={{ top: '42%', left: '68%', background: 'rgba(236,72,153,0.8)' }}>🍽️</div>
-      <div className="biz-pin" style={{ top: '66%', left: '34%', background: 'rgba(234,179,8,0.8)' }}>☕</div>
+      <div className="biz-dot" style={{ top:'46%', left:'18%', background:'rgba(249,115,22,0.85)', boxShadow:'0 4px 14px rgba(249,115,22,0.4)' }}>🏪</div>
+      <div className="biz-dot" style={{ top:'40%', left:'67%', background:'rgba(236,72,153,0.85)', boxShadow:'0 4px 14px rgba(236,72,153,0.4)' }}>🍽️</div>
+      <div className="biz-dot" style={{ top:'64%', left:'32%', background:'rgba(234,179,8,0.85)', boxShadow:'0 4px 14px rgba(234,179,8,0.4)' }}>☕</div>
       {/* Badges */}
-      <div className="map-badge" style={{ top: '8%', left: '4%', animationDelay: '0.5s' }}>
-        <div className="badge-icon" style={{ background: 'rgba(59,130,246,0.2)' }}>🎯</div>
-        <div><div className="badge-val text-blue-400">Tanlash</div><div className="badge-sub">Xaritadan</div></div>
+      <div className="map-badge" style={{ top:'6%', left:'3%', animationDelay:'0.3s' }}>
+        <div style={{ width:24, height:24, borderRadius:'50%', background:'rgba(59,130,246,0.2)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:10 }}>🎯</div>
+        <div><div style={{ fontSize:11, fontWeight:800, color:'#60a5fa', lineHeight:1 }}>Tanlash</div><div style={{ fontSize:9, color:'#64748b' }}>Xaritadan</div></div>
       </div>
-      <div className="map-badge" style={{ top: '8%', right: '4%', animationDelay: '0.7s' }}>
-        <div className="badge-icon" style={{ background: 'rgba(34,197,94,0.2)' }}>📌</div>
-        <div><div className="badge-val text-green-400">Manzil</div><div className="badge-sub">Belgilash</div></div>
+      <div className="map-badge" style={{ top:'6%', right:'3%', animationDelay:'0.5s' }}>
+        <div style={{ width:24, height:24, borderRadius:'50%', background:'rgba(34,197,94,0.2)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:10 }}>📌</div>
+        <div><div style={{ fontSize:11, fontWeight:800, color:'#4ade80', lineHeight:1 }}>Manzil</div><div style={{ fontSize:9, color:'#64748b' }}>Belgilash</div></div>
       </div>
-      <div className="absolute inset-x-0 bottom-0 h-20" style={{ background: 'linear-gradient(to top, #020617, transparent)' }} />
+      <div style={{ position:'absolute', inset:'auto 0 0 0', height:80, background:'linear-gradient(to top, #020617, transparent)' }} />
     </div>
   );
+}
 
-  if (step === 1) return (
-    <div className="absolute inset-0" style={{ background: '#0f172a' }}>
-      <div className="absolute inset-0 map-grid opacity-40" />
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="relative w-full h-full flex items-center justify-center">
-          {/* Center card */}
-          <div style={{ position: 'absolute', top: '14%', left: '50%', transform: 'translateX(-50%)' }}>
-            <div className="glass-dark p-3 text-center anim-pop" style={{ animationDelay: '0.2s', minWidth: 200, borderRadius: 16 }}>
-              <div className="flex items-center gap-2 mb-2">
-                <div className="w-7 h-7 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)' }}>🏪</div>
-                <span className="text-white font-semibold text-sm">Kafe / Restoran</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <div className="flex-1 h-1.5 rounded-full" style={{ background: '#1e293b' }}>
-                  <div className="h-full rounded-full" style={{ width: '70%', background: 'linear-gradient(90deg, #3b82f6, #8b5cf6)' }} />
-                </div>
-                <span className="text-xs font-medium text-blue-400">70%</span>
-              </div>
-            </div>
+// ── Step 1: Cards visual ──
+function VisualStep1() {
+  return (
+    <div style={{ position:'absolute', inset:0, background:'#08111f', overflow:'hidden' }}>
+      <div style={{ position:'absolute', inset:0, backgroundImage:'linear-gradient(rgba(59,130,246,0.05) 1px, transparent 1px), linear-gradient(90deg,rgba(59,130,246,0.05) 1px, transparent 1px)', backgroundSize:'30px 30px', opacity:0.7 }} />
+      {/* Center card */}
+      <div style={{ position:'absolute', top:'12%', left:'50%', transform:'translateX(-50%)', zIndex:10 }}>
+        <div className="card-pop" style={{ ...glassDark, borderRadius:16, padding:'12px 16px', minWidth:200, boxShadow:'0 8px 32px rgba(0,0,0,0.4)' }}>
+          <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:10 }}>
+            <div style={{ width:30, height:30, borderRadius:10, background:'linear-gradient(135deg,#3b82f6,#8b5cf6)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:14 }}>🏪</div>
+            <span style={{ color:'white', fontWeight:700, fontSize:13 }}>Kafe / Restoran</span>
           </div>
-          {/* Side cards */}
-          <div style={{ position: 'absolute', top: '42%', left: '5%' }}>
-            <div className="glass-dark p-3 anim-slide-left" style={{ animationDelay: '0.4s', borderRadius: 14 }}>
-              <div className="flex items-center gap-2">
-                <div className="w-7 h-7 rounded-xl flex items-center justify-center" style={{ background: 'rgba(34,197,94,0.2)' }}>💰</div>
-                <div><div className="text-green-400 font-bold text-xs">Byudjet</div><div className="text-white font-semibold text-sm">$5,000</div></div>
-              </div>
+          <div style={{ display:'flex', alignItems:'center', gap:8 }}>
+            <div style={{ flex:1, height:6, borderRadius:3, background:'#1e293b', overflow:'hidden' }}>
+              <div style={{ height:'100%', width:'70%', borderRadius:3, background:'linear-gradient(90deg,#3b82f6,#8b5cf6)' }} />
             </div>
+            <span style={{ fontSize:11, fontWeight:700, color:'#60a5fa' }}>70%</span>
           </div>
-          <div style={{ position: 'absolute', top: '42%', right: '5%' }}>
-            <div className="glass-dark p-3 anim-slide-right" style={{ animationDelay: '0.4s', borderRadius: 14 }}>
-              <div className="flex items-center gap-2">
-                <div className="w-7 h-7 rounded-xl flex items-center justify-center" style={{ background: 'rgba(139,92,246,0.2)' }}>💡</div>
-                <div><div className="text-purple-400 font-bold text-xs">G&apos;oya</div><div className="text-white font-semibold text-sm">Kiritish</div></div>
-              </div>
-            </div>
-          </div>
-          {/* Bottom icons */}
-          <div style={{ position: 'absolute', bottom: '14%', left: '50%', transform: 'translateX(-50%)' }}>
-            <div className="flex items-center gap-3 anim-fade" style={{ animationDelay: '0.6s' }}>
-              {[{icon:'🏢',label:'Tur'},{icon:'👛',label:'Kapital'},{icon:'✏️',label:'Tavsif'}].map((x,i) => (
-                <div key={i} className="glass-dark p-2.5 text-center" style={{ borderRadius: 12 }}>
-                  <div className="text-base mb-1">{x.icon}</div>
-                  <div className="text-xs" style={{ color: '#64748b', fontSize: 9 }}>{x.label}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-          {/* SVG lines */}
-          <svg className="absolute inset-0 w-full h-full" style={{ pointerEvents: 'none', opacity: 0.3 }}>
-            <line x1="50%" y1="30%" x2="20%" y2="50%" stroke="rgba(99,102,241,0.5)" strokeWidth="1" strokeDasharray="4 3" className="conn-line"/>
-            <line x1="50%" y1="30%" x2="80%" y2="50%" stroke="rgba(99,102,241,0.5)" strokeWidth="1" strokeDasharray="4 3" className="conn-line"/>
-            <line x1="50%" y1="30%" x2="50%" y2="72%" stroke="rgba(99,102,241,0.5)" strokeWidth="1" strokeDasharray="4 3" className="conn-line"/>
-          </svg>
         </div>
       </div>
-      <div className="absolute inset-x-0 bottom-0 h-20" style={{ background: 'linear-gradient(to top, #020617, transparent)' }} />
-    </div>
-  );
-
-  if (step === 2) return (
-    <div className="absolute inset-0" style={{ background: '#0f172a' }}>
-      <div className="absolute inset-0 map-grid opacity-30" />
-      <div className="absolute inset-0 px-5 pt-4 pb-6 flex">
-        <div className="flex gap-2 w-full items-end pb-6">
-          {[
-            { h: '55%', color: 'from-blue-600 to-blue-400', label: 'Aholi', delay: '0.1s' },
-            { h: '75%', color: 'from-green-600 to-green-400', label: 'Talab', delay: '0.2s' },
-            { h: '45%', color: 'from-orange-600 to-orange-400', label: 'Raqobat', delay: '0.3s' },
-            { h: '85%', color: 'from-purple-600 to-purple-400', label: 'Foyda', delay: '0.4s' },
-          ].map((b, i) => (
-            <div key={i} className="flex flex-col justify-end gap-1 flex-1">
-              <div className={`w-full rounded-t-xl bg-gradient-to-t ${b.color} chart-bar`}
-                   style={{ height: b.h, animationDelay: b.delay }} />
-              <div className="text-center" style={{ color: '#64748b', fontSize: 8 }}>{b.label}</div>
+      {/* Left card */}
+      <div style={{ position:'absolute', top:'46%', left:'4%' }}>
+        <div className="card-left" style={{ ...glassDark, borderRadius:14, padding:10, boxShadow:'0 8px 24px rgba(0,0,0,0.35)' }}>
+          <div style={{ display:'flex', alignItems:'center', gap:8 }}>
+            <div style={{ width:28, height:28, borderRadius:10, background:'rgba(34,197,94,0.2)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:12 }}>💰</div>
+            <div><div style={{ color:'#4ade80', fontWeight:800, fontSize:10 }}>Byudjet</div><div style={{ color:'white', fontWeight:700, fontSize:12 }}>$5,000</div></div>
+          </div>
+        </div>
+      </div>
+      {/* Right card */}
+      <div style={{ position:'absolute', top:'46%', right:'4%' }}>
+        <div className="card-right" style={{ ...glassDark, borderRadius:14, padding:10, boxShadow:'0 8px 24px rgba(0,0,0,0.35)' }}>
+          <div style={{ display:'flex', alignItems:'center', gap:8 }}>
+            <div style={{ width:28, height:28, borderRadius:10, background:'rgba(139,92,246,0.2)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:12 }}>💡</div>
+            <div><div style={{ color:'#a78bfa', fontWeight:800, fontSize:10 }}>G'oya</div><div style={{ color:'white', fontWeight:700, fontSize:12 }}>Kiritish</div></div>
+          </div>
+        </div>
+      </div>
+      {/* Bottom mini cards */}
+      <div style={{ position:'absolute', bottom:'12%', left:'50%', transform:'translateX(-50%)' }}>
+        <div className="card-fade" style={{ display:'flex', gap:10 }}>
+          {[{icon:'🏢',label:'Tur'},{icon:'👛',label:'Kapital'},{icon:'✏️',label:'Tavsif'}].map((x,i)=>(
+            <div key={i} style={{ ...glassDark, borderRadius:12, padding:'10px 14px', textAlign:'center', boxShadow:'0 4px 16px rgba(0,0,0,0.3)' }}>
+              <div style={{ fontSize:18, marginBottom:4 }}>{x.icon}</div>
+              <div style={{ fontSize:9, color:'#64748b' }}>{x.label}</div>
             </div>
           ))}
         </div>
       </div>
-      <div className="map-badge" style={{ top: '8%', left: '4%', animationDelay: '0.3s' }}>
-        <div className="badge-icon" style={{ background: 'rgba(34,197,94,0.2)' }}>📈</div>
-        <div><div className="badge-val text-green-400">+34%</div><div className="badge-sub">Daromad</div></div>
-      </div>
-      <div className="map-badge" style={{ top: '8%', right: '4%', animationDelay: '0.5s' }}>
-        <div className="badge-icon" style={{ background: 'rgba(59,130,246,0.2)' }}>👥</div>
-        <div><div className="badge-val text-blue-400">12.4K</div><div className="badge-sub">Aholi</div></div>
-      </div>
-      <div className="absolute inset-x-0 bottom-0 h-20" style={{ background: 'linear-gradient(to top, #020617, transparent)' }} />
+      {/* SVG lines */}
+      <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%', pointerEvents:'none', opacity:0.35 }}>
+        <line x1="50%" y1="28%" x2="20%" y2="52%" stroke="rgba(99,102,241,0.6)" strokeWidth="1.5" strokeDasharray="4 3" className="conn-draw"/>
+        <line x1="50%" y1="28%" x2="80%" y2="52%" stroke="rgba(99,102,241,0.6)" strokeWidth="1.5" strokeDasharray="4 3" className="conn-draw"/>
+        <line x1="50%" y1="28%" x2="50%" y2="74%" stroke="rgba(99,102,241,0.6)" strokeWidth="1.5" strokeDasharray="4 3" className="conn-draw"/>
+      </svg>
+      <div style={{ position:'absolute', inset:'auto 0 0 0', height:80, background:'linear-gradient(to top, #020617, transparent)' }} />
     </div>
   );
+}
 
-  // Step 3 - Radar/orbit visualization
+// ── Step 2: Bar chart visual ──
+function VisualStep2() {
+  const bars = [
+    { h: '56%', grad: 'linear-gradient(to top, #1d4ed8, #60a5fa)', label: 'Aholi', delay: '0.1s' },
+    { h: '76%', grad: 'linear-gradient(to top, #065f46, #34d399)', label: 'Talab', delay: '0.2s' },
+    { h: '44%', grad: 'linear-gradient(to top, #9a3412, #fb923c)', label: 'Raqobat', delay: '0.3s' },
+    { h: '86%', grad: 'linear-gradient(to top, #5b21b6, #a78bfa)', label: 'Foyda', delay: '0.4s' },
+  ];
   return (
-    <div className="absolute inset-0" style={{ background: '#0f172a' }}>
-      <div className="absolute inset-0 map-grid opacity-30" />
-      <div className="absolute inset-0 flex items-center justify-center" style={{ paddingTop: 10 }}>
-        <div style={{ position: 'relative', width: 260, height: 240 }}>
-          <svg className="absolute inset-0 w-full h-full" viewBox="0 0 260 240" style={{ pointerEvents: 'none' }}>
-            <circle cx="130" cy="120" r="50" fill="none" stroke="rgba(59,130,246,0.12)" strokeWidth="1"/>
-            <circle cx="130" cy="120" r="80" fill="none" stroke="rgba(139,92,246,0.08)" strokeWidth="1" strokeDasharray="4 4"/>
-            <circle cx="130" cy="120" r="108" fill="none" stroke="rgba(16,185,129,0.06)" strokeWidth="1" strokeDasharray="2 6"/>
-            <line x1="130" y1="120" x2="65" y2="55" stroke="rgba(59,130,246,0.4)" strokeWidth="1.5" strokeDasharray="4 3" className="conn-line"/>
-            <line x1="130" y1="120" x2="200" y2="60" stroke="rgba(139,92,246,0.4)" strokeWidth="1.5" strokeDasharray="4 3" className="conn-line"/>
-            <line x1="130" y1="120" x2="55" y2="158" stroke="rgba(249,115,22,0.4)" strokeWidth="1.5" strokeDasharray="4 3" className="conn-line"/>
-            <line x1="130" y1="120" x2="205" y2="162" stroke="rgba(16,185,129,0.4)" strokeWidth="1.5" strokeDasharray="4 3" className="conn-line"/>
-            <g style={{ transformOrigin: '130px 120px', animation: 'radarSweep 3s linear infinite' }}>
-              <path d="M130,120 L130,40 A80,80 0 0,1 194,88 Z" fill="rgba(59,130,246,0.1)"/>
+    <div style={{ position:'absolute', inset:0, background:'#08111f', overflow:'hidden' }}>
+      <div style={{ position:'absolute', inset:0, backgroundImage:'linear-gradient(rgba(59,130,246,0.05) 1px, transparent 1px)', backgroundSize:'30px 30px', opacity:0.6 }} />
+      {/* Y-axis lines */}
+      {[25,50,75].map((p,i)=>(
+        <div key={i} style={{ position:'absolute', top:`${p}%`, left:'8%', right:'8%', height:1, background:'rgba(255,255,255,0.05)' }} />
+      ))}
+      <div style={{ position:'absolute', inset:0, display:'flex', flexDirection:'column', justifyContent:'flex-end', padding:'8px 20px 36px' }}>
+        <div style={{ display:'flex', alignItems:'flex-end', gap:12, height:'100%' }}>
+          {bars.map((b,i)=>(
+            <div key={i} style={{ flex:1, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'flex-end', gap:6 }}>
+              <div className="bar-grow" style={{ width:'100%', borderRadius:'10px 10px 4px 4px', background:b.grad, height:b.h, animationDelay:b.delay, boxShadow:'0 4px 16px rgba(0,0,0,0.4)' }} />
+              <div style={{ color:'#64748b', fontSize:9, textAlign:'center', lineHeight:1.2 }}>{b.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="map-badge" style={{ top:'7%', left:'3%', animationDelay:'0.2s' }}>
+        <div style={{ width:24, height:24, borderRadius:'50%', background:'rgba(34,197,94,0.2)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:10 }}>📈</div>
+        <div><div style={{ fontSize:11, fontWeight:800, color:'#4ade80', lineHeight:1 }}>+34%</div><div style={{ fontSize:9, color:'#64748b' }}>Daromad</div></div>
+      </div>
+      <div className="map-badge" style={{ top:'7%', right:'3%', animationDelay:'0.4s' }}>
+        <div style={{ width:24, height:24, borderRadius:'50%', background:'rgba(59,130,246,0.2)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:10 }}>👥</div>
+        <div><div style={{ fontSize:11, fontWeight:800, color:'#60a5fa', lineHeight:1 }}>12.4K</div><div style={{ fontSize:9, color:'#64748b' }}>Aholi</div></div>
+      </div>
+      <div style={{ position:'absolute', inset:'auto 0 0 0', height:70, background:'linear-gradient(to top, #020617, transparent)' }} />
+    </div>
+  );
+}
+
+// ── Step 3: Radar visual ──
+function VisualStep3() {
+  const nodes = [
+    { label:'12.4K', sub:'Aholi', color:'#60a5fa', bg:'rgba(59,130,246,0.2)', icon:'👥', pos:{ top:'6%', left:'4%' } },
+    { label:'Yuqori', sub:'Ehtiyoj', color:'#a78bfa', bg:'rgba(139,92,246,0.2)', icon:'🛒', pos:{ top:'6%', right:'4%' } },
+    { label:'45%', sub:'Raqobat', color:'#fb923c', bg:'rgba(249,115,22,0.2)', icon:'🏆', pos:{ bottom:'20%', left:'2%' } },
+    { label:'+34%', sub:'Foyda', color:'#34d399', bg:'rgba(16,185,129,0.2)', icon:'📈', pos:{ bottom:'20%', right:'2%' } },
+  ];
+  return (
+    <div style={{ position:'absolute', inset:0, background:'#08111f', overflow:'hidden' }}>
+      <div style={{ position:'absolute', inset:0, backgroundImage:'linear-gradient(rgba(59,130,246,0.05) 1px, transparent 1px), linear-gradient(90deg,rgba(59,130,246,0.05) 1px, transparent 1px)', backgroundSize:'30px 30px', opacity:0.5 }} />
+      <div style={{ position:'absolute', inset:0, display:'flex', alignItems:'center', justifyContent:'center', paddingTop:8 }}>
+        <div style={{ position:'relative', width:260, height:230 }}>
+          <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%' }} viewBox="0 0 260 230">
+            <circle cx="130" cy="115" r="44" fill="rgba(59,130,246,0.06)" stroke="rgba(59,130,246,0.18)" strokeWidth="1.5"/>
+            <circle cx="130" cy="115" r="74" fill="none" stroke="rgba(139,92,246,0.1)" strokeWidth="1" strokeDasharray="4 4"/>
+            <circle cx="130" cy="115" r="104" fill="none" stroke="rgba(16,185,129,0.07)" strokeWidth="1" strokeDasharray="2 6"/>
+            <line x1="130" y1="115" x2="62" y2="50" stroke="rgba(59,130,246,0.4)" strokeWidth="1.5" strokeDasharray="4 3" className="conn-draw"/>
+            <line x1="130" y1="115" x2="198" y2="55" stroke="rgba(139,92,246,0.4)" strokeWidth="1.5" strokeDasharray="4 3" className="conn-draw"/>
+            <line x1="130" y1="115" x2="50" y2="160" stroke="rgba(249,115,22,0.4)" strokeWidth="1.5" strokeDasharray="4 3" className="conn-draw"/>
+            <line x1="130" y1="115" x2="208" y2="162" stroke="rgba(16,185,129,0.4)" strokeWidth="1.5" strokeDasharray="4 3" className="conn-draw"/>
+            <g style={{ transformOrigin:'130px 115px', animation:'radarSpin 3.5s linear infinite' }}>
+              <path d="M130,115 L130,41 A74,74 0 0,1 194,87 Z" fill="rgba(59,130,246,0.08)"/>
             </g>
           </svg>
-          {/* Center */}
-          <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)' }}>
-            <div className="center-orb"><span>📊</span></div>
+          {/* Center orb */}
+          <div style={{ position:'absolute', top:'50%', left:'50%', transform:'translate(-50%,-50%)' }}>
+            <div style={{ width:56, height:56, borderRadius:'50%', background:'linear-gradient(135deg,#3b82f6,#8b5cf6)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:24, animation:'orbPulse 2.5s ease-in-out infinite', boxShadow:'0 0 24px rgba(59,130,246,0.5)' }}>📊</div>
           </div>
           {/* Corner nodes */}
-          {[
-            { label: '12.4K', sub: 'Aholi', color: '#60a5fa', bg: 'rgba(59,130,246,0.2)', icon: '👥', pos: { top: '4%', left: '4%' } },
-            { label: 'Yuqori', sub: 'Ehtiyoj', color: '#a78bfa', bg: 'rgba(139,92,246,0.2)', icon: '🛒', pos: { top: '4%', right: '4%' } },
-            { label: '45%', sub: 'Raqobat', color: '#fb923c', bg: 'rgba(249,115,22,0.2)', icon: '🏆', pos: { bottom: '20%', left: '2%' } },
-            { label: '+34%', sub: 'Foyda', color: '#34d399', bg: 'rgba(16,185,129,0.2)', icon: '📈', pos: { bottom: '20%', right: '2%' } },
-          ].map((n, i) => (
-            <div key={i} className="glass-dark p-2 node-pop" style={{ ...n.pos, position: 'absolute', animationDelay: `${0.2 + i * 0.3}s`, borderRadius: 14 }}>
-              <div className="flex items-center gap-1.5">
-                <div className="w-5 h-5 rounded-lg flex items-center justify-center text-xs" style={{ background: n.bg }}>{n.icon}</div>
-                <div><div className="font-bold" style={{ fontSize: 10, color: n.color }}>{n.label}</div><div style={{ fontSize: 8, color: '#64748b' }}>{n.sub}</div></div>
+          {nodes.map((n,i)=>(
+            <div key={i} className="node-pop" style={{ ...glassDark, position:'absolute', ...n.pos, padding:'6px 10px', borderRadius:13, animationDelay:`${0.2+i*0.25}s`, boxShadow:'0 4px 16px rgba(0,0,0,0.4)' }}>
+              <div style={{ display:'flex', alignItems:'center', gap:6 }}>
+                <div style={{ width:22, height:22, borderRadius:8, background:n.bg, display:'flex', alignItems:'center', justifyContent:'center', fontSize:10 }}>{n.icon}</div>
+                <div>
+                  <div style={{ fontSize:11, fontWeight:800, color:n.color, lineHeight:1 }}>{n.label}</div>
+                  <div style={{ fontSize:8.5, color:'#64748b', marginTop:1 }}>{n.sub}</div>
+                </div>
               </div>
             </div>
           ))}
           {/* Bottom badge */}
-          <div className="glass-dark flex items-center gap-1.5 node-pop" style={{ position: 'absolute', bottom: '0%', left: '50%', transform: 'translateX(-50%)', animationDelay: '1.4s', padding: '6px 12px', borderRadius: 12, whiteSpace: 'nowrap' }}>
-            <span style={{ color: '#2dd4bf', fontSize: 9 }}>⚖️</span>
-            <span className="font-bold" style={{ fontSize: 9, color: '#2dd4bf' }}>Foyda-Zarar</span>
-            <span style={{ color: 'white', fontSize: 9 }}>✓</span>
+          <div className="node-pop" style={{ ...glassDark, position:'absolute', bottom:'-2%', left:'50%', transform:'translateX(-50%)', padding:'6px 14px', borderRadius:12, whiteSpace:'nowrap', animationDelay:'1.2s', boxShadow:'0 4px 16px rgba(0,0,0,0.35)', display:'flex', alignItems:'center', gap:6 }}>
+            <span style={{ fontSize:11 }}>⚖️</span>
+            <span style={{ fontSize:10, fontWeight:700, color:'#2dd4bf' }}>Foyda-Zarar</span>
+            <span style={{ color:'#4ade80', fontSize:10 }}>✓</span>
           </div>
         </div>
       </div>
-      <div className="absolute inset-x-0 bottom-0 h-20" style={{ background: 'linear-gradient(to top, #020617, transparent)' }} />
+      <div style={{ position:'absolute', inset:'auto 0 0 0', height:70, background:'linear-gradient(to top, #020617, transparent)' }} />
     </div>
   );
 }
+
+const visuals = [VisualStep0, VisualStep1, VisualStep2, VisualStep3];
 
 export default function OnboardingPage() {
   const router = useRouter();
@@ -255,189 +262,170 @@ export default function OnboardingPage() {
   const [finishing, setFinishing] = useState(false);
   const [done, setDone] = useState(false);
   const current = steps[step];
+  const Visual = visuals[step];
 
   const next = () => {
     if (step < steps.length - 1) {
       setStep(s => s + 1);
     } else {
       setFinishing(true);
-      setTimeout(() => { setDone(true); setTimeout(() => router.push('/dashboard'), 800); }, 1200);
+      setTimeout(() => { setDone(true); setTimeout(() => router.push('/dashboard'), 900); }, 1300);
     }
   };
 
+  const btnGrad = done || step === steps.length - 1
+    ? 'linear-gradient(135deg, #10b981, #059669)'
+    : 'linear-gradient(135deg, #3b82f6, #8b5cf6)';
+  const btnShadow = done || step === steps.length - 1
+    ? '0 8px 32px rgba(16,185,129,0.38)'
+    : '0 8px 32px rgba(59,130,246,0.38)';
+
   return (
-    <div className="dark-app-bg min-h-screen flex flex-col items-center justify-center overflow-hidden">
-      <div className="w-full max-w-sm mx-auto relative flex flex-col overflow-hidden" style={{ minHeight: '100vh' }}>
+    <div style={{ background:'#020617', minHeight:'100vh', color:'white', fontFamily:'Inter, sans-serif', display:'flex', alignItems:'center', justifyContent:'center' }}>
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+      <div style={{ width:'100%', maxWidth:430, minHeight:'100vh', display:'flex', flexDirection:'column', overflow:'hidden', position:'relative' }}>
 
         {/* Header */}
-        <div className="flex items-center justify-between px-5 pt-12 pb-3 z-20 relative">
-          <button onClick={() => step > 0 ? setStep(s => s - 1) : router.back()}
-                  className="glass-dark w-10 h-10 rounded-2xl flex items-center justify-center active:scale-95"
-                  style={{ opacity: step === 0 ? 0.4 : 1 }}>
-            ←
-          </button>
+        <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', padding:'52px 20px 12px', position:'relative', zIndex:20 }}>
+          <button
+            onClick={() => step > 0 ? setStep(s=>s-1) : router.back()}
+            style={{ ...glassDark, width:40, height:40, borderRadius:14, display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer', border:'1px solid rgba(255,255,255,0.12)', fontSize:16, opacity: step===0 ? 0.35 : 1, transition:'opacity 0.2s', fontFamily:'Inter, sans-serif' }}
+          >←</button>
+
           {/* Progress dots */}
-          <div className="flex items-center gap-2">
-            {steps.map((_, i) => (
-              <div key={i} className="h-2 rounded-full transition-all duration-400"
-                   style={{ width: i === step ? 24 : 8, background: i <= step ? '#3b82f6' : '#334155' }} />
+          <div style={{ display:'flex', alignItems:'center', gap:8 }}>
+            {steps.map((_,i)=>(
+              <div key={i} style={{ height:8, borderRadius:4, transition:'all 0.35s ease', width: i===step ? 28 : 8, background: i<=step ? '#3b82f6' : '#1e293b' }} />
             ))}
           </div>
-          <button onClick={() => { setStep(steps.length - 1); }}
-                  className="glass-dark h-10 px-4 rounded-2xl flex items-center justify-center text-sm active:scale-95"
-                  style={{ color: '#94a3b8', opacity: step === steps.length - 1 ? 0 : 1, pointerEvents: step === steps.length - 1 ? 'none' : 'auto' }}>
-            Skip
-          </button>
+
+          <button
+            onClick={()=>setStep(steps.length-1)}
+            style={{ ...glassDark, height:36, padding:'0 14px', borderRadius:12, display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer', border:'1px solid rgba(255,255,255,0.1)', fontSize:13, color:'#94a3b8', opacity: step===steps.length-1 ? 0 : 1, pointerEvents: step===steps.length-1 ? 'none' : 'auto', fontFamily:'Inter, sans-serif', transition:'opacity 0.2s' }}
+          >O'tkazish</button>
         </div>
 
-        {/* Visual */}
-        <div className="relative flex-shrink-0" style={{ height: 280, width: '100%' }}>
-          <MapVisual step={step} />
+        {/* Visual section */}
+        <div style={{ position:'relative', width:'100%', height:280, flexShrink:0 }}>
+          <Visual />
         </div>
 
         {/* Content */}
-        <div className="flex-1 flex flex-col px-5 pt-2 pb-6">
-          <div className="mb-4" key={step}>
-            <div className="flex items-center gap-2 mb-2">
-              <div className="w-8 h-8 rounded-xl flex items-center justify-center text-base" style={{ background: current.iconBg }}>
-                {current.icon}
-              </div>
-              <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: current.badgeColor }}>
-                {current.badge}
-              </span>
+        <div style={{ flex:1, display:'flex', flexDirection:'column', padding:'8px 20px 24px' }}>
+          <div key={step} style={{ marginBottom:14 }}>
+            {/* Badge */}
+            <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:8 }}>
+              <div style={{ width:32, height:32, borderRadius:12, background:current.iconBg, display:'flex', alignItems:'center', justifyContent:'center', fontSize:16 }}>{current.icon}</div>
+              <span style={{ fontSize:11, fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', color:current.badgeColor }}>{current.badge}</span>
             </div>
-            <h1 className="text-2xl font-black text-white mb-2 leading-tight">
+            {/* Title */}
+            <h1 style={{ fontSize:24, fontWeight:900, color:'white', lineHeight:1.25, marginBottom:8, letterSpacing:'-0.3px' }}>
               {current.title}<br />
-              <span style={{ background: 'linear-gradient(135deg, #60a5fa, #a78bfa, #34d399)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                {current.titleGrad}
-              </span>
+              <span style={{ background:'linear-gradient(135deg,#60a5fa,#a78bfa,#34d399)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>{current.titleGrad}</span>
             </h1>
-            <p className="text-sm leading-relaxed" style={{ color: '#94a3b8' }}>{current.desc}</p>
+            <p style={{ fontSize:13, color:'#94a3b8', lineHeight:1.6 }}>{current.desc}</p>
           </div>
 
-          <div className="space-y-2.5 mb-4 flex-1">
-            {current.cards.map((card, i) => (
-              <div key={i} className="glass-dark rounded-2xl p-3.5 flex items-center gap-3 anim-slide-right"
-                   style={{ animationDelay: `${0.1 + i * 0.15}s` }}>
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 text-lg"
-                     style={{ background: `${card.color}22` }}>
-                  {card.icon}
-                </div>
-                <div className="flex-1">
-                  <div className="flex items-center justify-between mb-0.5">
-                    <div className="text-white font-semibold text-sm">{card.title}</div>
-                    {('val' in card) && <span className="text-xs font-bold px-2 py-0.5 rounded-lg" style={{ color: card.color, background: `${card.color}22` }}>{(card as { val: string }).val}</span>}
+          {/* Cards */}
+          <div style={{ display:'flex', flexDirection:'column', gap:10, flex:1, marginBottom:14 }}>
+            {current.cards.map((card: { icon: string; title: string; desc: string; color: string; percent?: number; val?: string }, i) => (
+              <div key={`${step}-${i}`} className="card-slide" style={{ ...glassDark, borderRadius:18, padding:'12px 14px', display:'flex', alignItems:'center', gap:12, animationDelay:`${0.08+i*0.12}s`, boxShadow:'0 4px 20px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.05)' }}>
+                <div style={{ width:42, height:42, borderRadius:14, background:`${card.color}1a`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:18, flexShrink:0 }}>{card.icon}</div>
+                <div style={{ flex:1, minWidth:0 }}>
+                  <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom: card.percent ? 5 : 2 }}>
+                    <span style={{ color:'white', fontWeight:700, fontSize:13 }}>{card.title}</span>
+                    {card.val && <span style={{ fontSize:10.5, fontWeight:800, color:card.color, background:`${card.color}1a`, padding:'2px 8px', borderRadius:8 }}>{card.val}</span>}
                   </div>
-                  {'percent' in card && (
-                    <div className="flex items-center gap-2 mb-0.5">
-                      <div className="flex-1 h-1.5 rounded-full" style={{ background: '#1e293b' }}>
-                        <div className="h-full rounded-full transition-all duration-1000"
-                             style={{ width: `${(card as { percent: number }).percent}%`, background: card.color }} />
+                  {card.percent != null && (
+                    <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:4 }}>
+                      <div style={{ flex:1, height:5, borderRadius:3, background:'#1e293b', overflow:'hidden' }}>
+                        <div style={{ height:'100%', width:`${card.percent}%`, borderRadius:3, background:card.color, transition:'width 1s ease' }} />
                       </div>
-                      <span className="text-xs font-semibold" style={{ color: card.color }}>{(card as { percent: number }).percent}%</span>
+                      <span style={{ fontSize:10, fontWeight:700, color:card.color, minWidth:30 }}>{card.percent}%</span>
                     </div>
                   )}
-                  <div className="text-xs" style={{ color: '#64748b' }}>{card.desc}</div>
+                  <div style={{ fontSize:11, color:'#64748b', lineHeight:1.4 }}>{card.desc}</div>
                 </div>
-                {!('percent' in card) && (
-                  <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ background: `${card.color}22` }}>
-                    <span style={{ color: card.color, fontSize: 9 }}>›</span>
+                {!card.percent && (
+                  <div style={{ width:24, height:24, borderRadius:'50%', background:`${card.color}1a`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
+                    <span style={{ color:card.color, fontSize:12, fontWeight:700 }}>›</span>
                   </div>
                 )}
               </div>
             ))}
-
-            {current.tip && (
-              <div className="glass-dark rounded-2xl p-3.5 flex items-center gap-3" style={{ borderColor: `${current.tip.color}33` }}>
-                <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 text-base" style={{ background: `${current.tip.color}22` }}>
-                  {current.tip.icon}
-                </div>
-                <div>
-                  <div className="text-xs font-semibold mb-0.5" style={{ color: current.tip.color }}>{current.tip.title}</div>
-                  <div className="text-xs leading-relaxed" style={{ color: '#cbd5e1' }}>{current.tip.desc}</div>
-                </div>
-              </div>
-            )}
           </div>
 
-          {/* Next button */}
-          <button onClick={next}
-                  className="w-full h-14 rounded-2xl text-white font-bold text-base flex items-center justify-center gap-3 transition-all active:scale-95 mt-auto"
-                  style={{
-                    background: done ? 'linear-gradient(135deg, #10b981, #059669)' : step === steps.length - 1 ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #3b82f6, #8b5cf6)',
-                    boxShadow: '0 8px 32px rgba(59,130,246,0.35)',
-                  }}>
+          {/* CTA button */}
+          <button
+            onClick={next}
+            style={{ width:'100%', height:56, borderRadius:18, background:btnGrad, boxShadow:btnShadow, color:'white', fontWeight:800, fontSize:15, display:'flex', alignItems:'center', justifyContent:'center', gap:10, border:'none', cursor:'pointer', fontFamily:'Inter, sans-serif', transition:'all 0.3s ease', marginTop:'auto' }}
+          >
             {finishing ? (
-              <><span className="loading-dots"><span/><span/><span/></span></>
+              <span className="dot-loader"><span /><span /><span /></span>
             ) : done ? (
-              <><span>✓</span><span>Tayyor!</span></>
+              <><span style={{ fontSize:18 }}>✓</span><span>Tayyor!</span></>
             ) : step === steps.length - 1 ? (
-              <><span>Boshlash</span><span>🚀</span></>
+              <><span>Boshlash</span><span style={{ fontSize:18 }}>🚀</span></>
             ) : (
-              <><span>Davom etish</span><span>→</span></>
+              <><span>Davom etish</span><span style={{ fontSize:16 }}>→</span></>
             )}
           </button>
         </div>
       </div>
 
       <style>{`
-        .dark-app-bg { background: #020617; color: white; font-family: 'Inter', sans-serif; }
-        .map-grid {
-          position: absolute; inset: 0;
-          background-image: linear-gradient(rgba(59,130,246,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.08) 1px, transparent 1px);
-          background-size: 28px 28px;
-        }
-        .map-road-h { position: absolute; height: 3px; background: rgba(148,163,184,0.2); border-radius: 2px; }
-        .map-road-v { position: absolute; width: 3px; background: rgba(148,163,184,0.2); border-radius: 2px; }
-        .map-building { position: absolute; background: rgba(30,64,175,0.2); border: 1px solid rgba(59,130,246,0.25); border-radius: 4px; }
-        .glass-dark {
-          background: rgba(255,255,255,0.06);
-          backdrop-filter: blur(20px);
-          border: 1px solid rgba(255,255,255,0.1);
-        }
-        .pin-ring { position: absolute; border-radius: 50%; border: 2px solid rgba(59,130,246,0.4); }
-        .ping { animation: pingAnim 2s ease-out infinite; }
-        .pulse-r { animation: pingAnim 2s ease-out 0.7s infinite; border-width: 1px; border-color: rgba(59,130,246,0.2); }
-        @keyframes pingAnim { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(2.2); opacity: 0; } }
-        .pin-dot {
-          width: 32px; height: 32px; border-radius: 50%;
-          background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-          display: flex; align-items: center; justify-content: center; font-size: 14px;
-          position: relative; z-index: 10; box-shadow: 0 4px 15px rgba(99,102,241,0.5);
-          animation: floatPin 3s ease-in-out infinite;
-        }
-        @keyframes floatPin { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-        .biz-pin { position: absolute; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; border: 1px solid rgba(255,255,255,0.3); }
-        .map-badge { position: absolute; display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.06); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 8px 12px; animation: fadeIn 0.8s ease forwards; opacity: 0; }
-        .badge-icon { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; }
-        .badge-val { font-size: 11px; font-weight: 700; line-height: 1; }
-        .badge-sub { font-size: 9px; color: #64748b; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .anim-pop { animation: popIn 0.5s ease forwards; opacity: 0; }
-        @keyframes popIn { 0% { transform: scale(0); opacity: 0; } 70% { transform: scale(1.1); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
-        .anim-slide-right { animation: slideRight 0.5s ease forwards; opacity: 0; }
-        @keyframes slideRight { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
-        .anim-slide-left { animation: slideLeft 0.6s ease forwards; opacity: 0; }
-        @keyframes slideLeft { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
-        .anim-fade { animation: fadeIn 0.8s ease forwards; opacity: 0; }
-        .conn-line { stroke-dasharray: 200; stroke-dashoffset: 200; animation: drawLine 1.5s ease forwards 0.5s; }
-        @keyframes drawLine { to { stroke-dashoffset: 0; } }
-        .chart-bar { animation: slideUp 0.6s ease forwards; opacity: 0; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .center-orb {
-          width: 52px; height: 52px; border-radius: 50%; font-size: 22px;
-          background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-          display: flex; align-items: center; justify-content: center;
-          animation: pulseGlow 2.5s ease-in-out infinite;
-        }
-        @keyframes pulseGlow { 0%,100% { box-shadow: 0 0 20px rgba(59,130,246,0.4); } 50% { box-shadow: 0 0 40px rgba(139,92,246,0.6); } }
-        @keyframes radarSweep { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .node-pop { animation: popIn 0.5s ease forwards; opacity: 0; }
-        .loading-dots { display: flex; gap: 6px; }
-        .loading-dots span { width: 8px; height: 8px; border-radius: 50%; background: white; animation: dotBounce 1.4s ease-in-out infinite; }
-        .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
-        .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes dotBounce { 0%,80%,100% { transform: scale(0.6); opacity: 0.4; } 40% { transform: scale(1); opacity: 1; } }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+        * { box-sizing: border-box; }
+
+        /* Pin animations */
+        .pin-ring-1 { position:absolute; width:44px; height:44px; border-radius:50%; border:2px solid rgba(59,130,246,0.45); top:-6px; left:-6px; animation:pingRing 2.2s ease-out infinite; }
+        .pin-ring-2 { position:absolute; width:62px; height:62px; border-radius:50%; border:1px solid rgba(59,130,246,0.2); top:-15px; left:-15px; animation:pingRing 2.2s ease-out 0.8s infinite; }
+        .pin-core { width:32px; height:32px; border-radius:50%; background:linear-gradient(135deg,#3b82f6,#8b5cf6); display:flex; align-items:center; justify-content:center; font-size:14px; position:relative; z-index:10; box-shadow:0 4px 18px rgba(99,102,241,0.55); animation:pinFloat 3s ease-in-out infinite; }
+        @keyframes pingRing { 0% { transform:scale(1); opacity:0.8; } 100% { transform:scale(2.4); opacity:0; } }
+        @keyframes pinFloat { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-8px); } }
+
+        .biz-dot { position:absolute; width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; border:1.5px solid rgba(255,255,255,0.3); }
+
+        .map-badge { position:absolute; display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.07); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); border:1px solid rgba(255,255,255,0.12); border-radius:13px; padding:8px 12px; opacity:0; animation:fadeUp 0.7s ease forwards; }
+        @keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+
+        /* Step 1 cards */
+        .card-pop { animation:popIn 0.5s ease forwards; opacity:0; }
+        .card-left { animation:slideFromLeft 0.5s ease 0.3s forwards; opacity:0; }
+        .card-right { animation:slideFromRight 0.5s ease 0.3s forwards; opacity:0; }
+        .card-fade { animation:fadeUp 0.7s ease 0.5s forwards; opacity:0; }
+        @keyframes popIn { 0% { transform:scale(0.7) translateX(-50%); opacity:0; } 70% { transform:scale(1.05) translateX(-50%); opacity:1; } 100% { transform:scale(1) translateX(-50%); opacity:1; } }
+        @keyframes slideFromLeft { from { opacity:0; transform:translateX(-20px); } to { opacity:1; transform:translateX(0); } }
+        @keyframes slideFromRight { from { opacity:0; transform:translateX(20px); } to { opacity:1; transform:translateX(0); } }
+
+        /* SVG line draw */
+        .conn-draw { stroke-dasharray:220; stroke-dashoffset:220; animation:drawLine 1.2s ease 0.4s forwards; }
+        @keyframes drawLine { to { stroke-dashoffset:0; } }
+
+        /* Bar grow */
+        .bar-grow { animation:barUp 0.7s ease forwards; height:0 !important; }
+        @keyframes barUp { from { height:0 !important; opacity:0; } to { opacity:1; } }
+        /* Override: bars use inline height, so we animate opacity+transform */
+        .bar-grow { opacity:0; transform:scaleY(0); transform-origin:bottom; animation:barGrow 0.6s ease forwards; }
+        @keyframes barGrow { from { opacity:0; transform:scaleY(0); } to { opacity:1; transform:scaleY(1); } }
+
+        /* Radar */
+        @keyframes radarSpin { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
+        @keyframes orbPulse { 0%,100% { box-shadow:0 0 24px rgba(59,130,246,0.5); } 50% { box-shadow:0 0 44px rgba(139,92,246,0.7); } }
+        .node-pop { animation:nodeAppear 0.5s ease forwards; opacity:0; }
+        @keyframes nodeAppear { from { opacity:0; transform:scale(0.6); } to { opacity:1; transform:scale(1); } }
+
+        /* Content cards */
+        .card-slide { animation:cardSlide 0.45s ease forwards; opacity:0; }
+        @keyframes cardSlide { from { opacity:0; transform:translateX(16px); } to { opacity:1; transform:translateX(0); } }
+
+        /* Dots loader */
+        .dot-loader { display:flex; gap:6px; align-items:center; }
+        .dot-loader span { width:8px; height:8px; border-radius:50%; background:white; animation:dotB 1.3s ease-in-out infinite; }
+        .dot-loader span:nth-child(2) { animation-delay:0.18s; }
+        .dot-loader span:nth-child(3) { animation-delay:0.36s; }
+        @keyframes dotB { 0%,80%,100% { transform:scale(0.55); opacity:0.4; } 40% { transform:scale(1); opacity:1; } }
       `}</style>
     </div>
   );
