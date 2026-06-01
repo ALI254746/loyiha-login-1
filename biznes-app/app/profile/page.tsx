@@ -95,7 +95,7 @@ export default function ProfilePage() {
                 >
                   <span style={{ fontSize: 20 }}>{item.icon}</span>
                   <span style={{ flex: 1, fontSize: 14, fontWeight: 500, color: '#e2e8f0' }}>{item.label}</span>
-                  {item.right || (item.action && <span style={{ color: '#334155', fontSize: 18 }}>›</span>)}
+                  {item.right ?? (item.action ? <span style={{ color: '#334155', fontSize: 18 }}>›</span> : null)}
                 </button>
               ))}
             </div>
